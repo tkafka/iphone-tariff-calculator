@@ -81,6 +81,7 @@
     <div id="categorySwitcher" class="mb-4 text-lg text-gray-500">
       <a href="#" data-category="iPhone" class="category-link active px-2 py-1 text-blue-600 hover:text-blue-800">iPhone</a> |
       <a href="#" data-category="Watch" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">Watch</a> |
+      <a href="#" data-category="iPad" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">iPad</a> |
       <a href="#" data-category="MacBook" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">MacBook</a> |
       <a href="#" data-category="Mac" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">Mac</a>
     </div>
@@ -189,9 +190,9 @@
         Where Tariff on BOM = (Base Price × BOM %) × Tariff Rate<br/><br/>
         Where:<br/>
         <ul class="list-disc list-outside pl-5 space-y-1 mt-2">
-          <li><strong>BOM %</strong>: Cost of components as % of Base Price (Default: ~51% iPhone, ~46% Watch, ~56% MacBook, ~57% Mac)</li>
-          <li><strong>Other Costs %</strong>: Other costs as % of Base Price (Default: ~12% iPhone, ~13% Watch, ~11% MacBook, ~11% Mac)</li>
-          <li><strong>Margin %</strong>: Profit margin as % of Base Price (Default: ~37% iPhone, ~41% Watch, ~33% MacBook, ~32% Mac)</li>
+          <li><strong>BOM %</strong>: Cost of components as % of Base Price (Default: ~51% iPhone, ~46% Watch, ~48% iPad, ~56% MacBook, ~57% Mac)</li>
+          <li><strong>Other Costs %</strong>: Other costs as % of Base Price (Default: ~12% iPhone, ~13% Watch, ~13% iPad, ~11% MacBook, ~11% Mac)</li>
+          <li><strong>Margin %</strong>: Profit margin as % of Base Price (Default: ~37% iPhone, ~41% Watch, ~39% iPad, ~33% MacBook, ~32% Mac)</li>
           <li><strong>Tariff Rate</strong>: U.S. import tax applied *only* to the BOM Cost portion.</li>
         </ul>
         
@@ -253,6 +254,43 @@
                 price: 799,
                 image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ultra-case-unselect-gallery-1-202409_GEO_CZ_FMT_WHH?wid=752&hei=720&fmt=p-jpg&qlt=80&.v=1725370972114"
             }
+        }
+      },
+      "iPad": { // New iPad Category
+        defaultBom: 48,       // Estimated default
+        defaultOtherCosts: 13, // Estimated default
+        defaultMargin: 39,    // Estimated default
+        products: {
+          "ipad_11th_128": {
+            name: "iPad (11th gen, 128GB)",
+            price: 349,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-10th-gen-finish-select-202212-blue-wifi_FMT_WHH?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1670856032314"
+          },
+          "ipadmini_7th_128": {
+            name: "iPad mini (7th gen, 128GB)",
+            price: 499,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-finish-unselect-gallery-1-202410_FMT_WHH?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1727219498681"
+          },
+          "ipadair_11_7th_128": {
+            name: "iPad Air 11\" (7th gen, 128GB)",
+            price: 599,
+            image: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/ipad-air-storage-select-202405-11inch-space-gray-wifi_FMT_WHH?wid=1280&hei=720&fmt=p-jpg&qlt=80&.v=TENLTVRoeFdHUUI5ZE1ZZmxpQUlNMm5pQUoxb0NIVEJFSjRVRzZ4dzV5U0dmbElpTUs0SnluTjdzNTdJdUc1NWl1WEttbFlFejZ0L0VqVlhGc0pKT3BmbTBuZmdjbmVyUEN6U1pnb2VjUDh3Qjhvd1BnZkhnUFFYU1JJMGh5alE4VHArb0s4RWJ6QWJ3VVdzWFVzWUhINXFNVzc5YkZmK2I4YzJ4ZndkZUdj&traceId=1"
+          },
+          "ipadair_13_7th_128": {
+            name: "iPad Air 13\" (7th gen, 128GB)",
+            price: 799,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-finish-select-gallery-202405-13inch-space-gray-wifi_FMT_WHH?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1713820069864"
+          },
+          "ipadpro_11_6th_256": {
+            name: "iPad Pro 11\" (6th gen, 256GB)",
+            price: 999,
+            image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ipad-pro-model-select-gallery-1-202405_FMT_WHH?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1713495957717"
+          },
+          "ipadpro_13_6th_256": {
+            name: "iPad Pro 13\" (6th gen, 256GB)",
+            price: 1299,
+            image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ipad-pro-model-select-gallery-1-202405_FMT_WHH?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1713495957717"
+          }
         }
       },
       "MacBook": {
