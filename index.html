@@ -152,19 +152,25 @@
       <div id="explanation" class="text-sm text-gray-700 mt-4"></div>
       <div class="text-left text-sm text-gray-600 mt-6 border-t pt-4">
         <strong>Calculation Method:</strong><br/>
-        Retail Price = (BOM Cost × (1 + Tariff Rate) + Other Costs) × (1 + Profit Margin)<br/><br/>
+        Final Price = (Base Price × BOM %) + (Base Price × Other Costs %) + (Base Price × Margin %) + (Tariff on BOM)<br/>
+        Where Tariff on BOM = (Base Price × BOM %) × Tariff Rate<br/><br/>
         Where:<br/>
         <ul class="list-disc list-outside pl-5 space-y-1 mt-2">
-          <li><strong>BOM Cost</strong>: Cost of components (as % of base price, varies by product, e.g., ~55% for iPhone 16 Pro)</li>
-          <li><strong>Tariff Rate</strong>: U.S. import tax</li>
-          <li><strong>Other Costs</strong>: Calculated as % of the initial Base Price (adjustable, default 13%)</li>
-          <li><strong>Intended Profit Margin</strong>: Adjustable (e.g., ~39% is recent iPhone Margin)</li>
+          <li><strong>BOM %</strong>: Cost of components as % of Base Price (Default: ~51% iPhone, ~46% Watch, ~56% MacBook, ~57% Mac)</li>
+          <li><strong>Other Costs %</strong>: Other costs as % of Base Price (Default: ~12% iPhone, ~13% Watch, ~11% MacBook, ~11% Mac)</li>
+          <li><strong>Margin %</strong>: Profit margin as % of Base Price (Default: ~37% iPhone, ~41% Watch, ~33% MacBook, ~32% Mac)</li>
+          <li><strong>Tariff Rate</strong>: U.S. import tax applied *only* to the BOM Cost portion.</li>
         </ul>
         <br/>
-        Example (iPhone 16 Pro): If Base Price = $999, BOM % = 55%, Tariff = 25%, Other Costs % = 13%, Profit Margin = 39%,<br/>
-        Then BOM Cost = $999 × 0.55 = $549.45<br/>
-        Other Costs = $999 × 0.13 = $129.87<br/>
-        Retail = ($549.45 × (1 + 0.25) + $129.87) × (1 + 0.39) ≈ $1135.19, rounded up to $1199<br/>
+        Example (iPhone 16 Pro - Base $999, Tariff 25%):<br/>
+        Defaults: BOM 51%, Other 12%, Margin 37%<br/>
+        BOM Cost = $999 × 0.51 = $509.49<br/>
+        Other Costs = $999 × 0.12 = $119.88<br/>
+        Margin = $999 × 0.37 = $369.63<br/>
+        Tariff Cost = $509.49 × 0.25 = $127.37<br/>
+        Subtotal (Defaults) = $509.49 + $119.88 + $369.63 = $999<br/>
+        Retail = Subtotal + Tariff Cost = $999 + $127.37 = $1126.37<br/>
+        Final Rounded Price ≈ $1199<br/>
       </div>
     </div>
   </div>
@@ -172,7 +178,9 @@
   <script>
     const productData = {
       "iPhone": {
-        defaultBom: 55,
+        defaultBom: 51,
+        defaultOtherCosts: 12,
+        defaultMargin: 37,
         products: {
           "16e": {
             name: "iPhone 16e",
@@ -202,57 +210,63 @@
         }
       },
       "Watch": {
-        defaultBom: 45, // Placeholder BOM for Watch
+        defaultBom: 46,
+        defaultOtherCosts: 13,
+        defaultMargin: 41,
         products: {
-            "se_40": { 
-                name: "Apple Watch SE", 
-                price: 249, 
+            "se_40": {
+                name: "Apple Watch SE",
+                price: 249,
                 image: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MYG03ref_FV98_VW_34FR+watch-case-44-aluminum-midnight-nc-se_VW_34FR+watch-face-44-aluminum-midnight-se_VW_34FR?wid=2000&hei=2000&fmt=png-alpha&.v=OUh6OFdFVEJxVkF6SUo5TWxpTE50MG5TeWJ6QW43NUFnQ2V4cmRFc1VnWWxvMTNVeXVWaTk0Ui9PSEVKVVU0dzN2QVRTWW5kR2Jad3ptYU8zZ21EUWZmQXlUU2xCQ2pTN3lrcDE0UU1hK0ZpRFN2VTEyRk9ZNEFubk9kM01kUmIySDNGVkFuTWJDdzY3LzhwNXhBeGd1SGpaRFFxc2owYmpHVDUzTnBBbHhWTGczaFhEVzlIZ1ZNWGl6QUFCWE5OZ1JNaDBKYVhZeVUreEN5elJpM3E3QQ"
             },
-            "series10_42": { 
-                name: "Apple Watch Series 10 (42mm, GPS)", 
-                price: 399, 
+            "series10_42": {
+                name: "Apple Watch Series 10 (42mm, GPS)",
+                price: 399,
                 image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/s10-case-unselect-gallery-1-202503_FMT_WHH?wid=752&hei=720&fmt=p-jpg&qlt=80&.v=1739305297853"
             },
-            "ultra2_49": { 
-                name: "Apple Watch Ultra 2 (49mm, GPS+Cellular)", 
-                price: 799, 
+            "ultra2_49": {
+                name: "Apple Watch Ultra 2 (49mm, GPS+Cellular)",
+                price: 799,
                 image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ultra-case-unselect-gallery-1-202409_GEO_CZ_FMT_WHH?wid=752&hei=720&fmt=p-jpg&qlt=80&.v=1725370972114"
             }
         }
       },
       "MacBook": {
-        defaultBom: 65, // Placeholder BOM for MacBook
+        defaultBom: 56,
+        defaultOtherCosts: 11,
+        defaultMargin: 33,
         products: {
-            "mba_13_m4": { 
-                name: "MacBook Air 13\" (M4, 16GB/256GB)", 
-                price: 999, 
+            "mba_13_m4": {
+                name: "MacBook Air 13\" (M4, 16GB/256GB)",
+                price: 999,
                 image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba13-silver-cto-hero-202503_FMT_WHH?wid=448&hei=272&fmt=jpeg&qlt=90&.v=1739304594224"
             },
-            "mba_15_m4": { 
-                name: "MacBook Air 15\" (M4, 16GB/256GB)", 
-                price: 1199, 
+            "mba_15_m4": {
+                name: "MacBook Air 15\" (M4, 16GB/256GB)",
+                price: 1199,
                 image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mba15-starlight-config-202503_FMT_WHH?wid=448&hei=272&fmt=jpeg&qlt=90&.v=1739918914455"
             },
-            "mbp_14_m4": { 
-                name: "MacBook Pro 14\" (M4, 16GB/512GB)", 
-                price: 1599, 
+            "mbp_14_m4": {
+                name: "MacBook Pro 14\" (M4, 16GB/512GB)",
+                price: 1599,
                 image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-pro-og-202410?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1728658184478"
             },
-            "mbp_16_m4pro": { 
-                name: "MacBook Pro 16\" (M4 Pro, 24GB/512GB)", 
-                price: 2499, 
+            "mbp_16_m4pro": {
+                name: "MacBook Pro 16\" (M4 Pro, 24GB/512GB)",
+                price: 2499,
                 image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-pro-og-202410?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1728658184478"
             },
-             "mbp_16_m4max": { 
-                name: "MacBook Pro 16\" (M4 Max, 36GB/1TB)", 
-                price: 3499, 
+             "mbp_16_m4max": {
+                name: "MacBook Pro 16\" (M4 Max, 36GB/1TB)",
+                price: 3499,
                 image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-pro-og-202410?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1728658184478"
             }
         }
       },
       "Mac": { // New Mac category for desktops/studio/pro
-        defaultBom: 70, // Placeholder BOM for desktop Macs
+        defaultBom: 57,
+        defaultOtherCosts: 11,
+        defaultMargin: 32,
         products: {
           "macmini_m4": {
             name: "Mac mini (M4)",
@@ -312,12 +326,11 @@
     const resetOtherCostsLink = document.getElementById("resetOtherCosts");
 
     // Default values (will be updated based on category)
-    let defaultBom = productData[currentCategory].defaultBom;
-    const defaultTariff = 104;
-    const defaultMargin = 39; // Keep margin consistent for now, could be category specific later
-    const defaultOtherCostsPercent = 13;
+    const defaultTariff = 0; // Tariff default should be 0 now to show base price
 
     function roundUpTo99(amount) {
+      // Avoid rounding $0 to $-1
+      if (amount <= 0) return 0;
       return Math.ceil(amount / 100) * 100 - 1;
     }
 
@@ -338,47 +351,58 @@
 
     function updatePrices() {
       const selectedKey = productSelect.value;
+      const categoryDefaults = productData[currentCategory];
       // Ensure we have a valid key, otherwise might happen during category switch
-      if (!selectedKey || !productData[currentCategory].products[selectedKey]) return;
+      if (!selectedKey || !categoryDefaults.products[selectedKey]) return;
 
-      const product = productData[currentCategory].products[selectedKey];
+      const product = categoryDefaults.products[selectedKey];
       const basePrice = product.price;
       phoneImageEl.src = product.image; // Update image source
 
       // --- Update slider text values first ---
       const bomPercent = parseFloat(bomInput.value);
-      const tariff = parseFloat(tariffInput.value);
-      const marginRate = parseFloat(marginInput.value) / 100;
+      const tariffPercent = parseFloat(tariffInput.value); // Renamed tariff -> tariffPercent for clarity
+      const marginPercent = parseFloat(marginInput.value);
       const otherCostsPercent = parseFloat(otherCostsPercentInput.value);
 
       bomValue.textContent = `${bomPercent}%`;
-      tariffValue.textContent = `${tariff}%`;
-      marginValue.textContent = `${marginInput.value}%`;
+      tariffValue.textContent = `${tariffPercent}%`;
+      marginValue.textContent = `${marginPercent}%`;
       otherCostsPercentValue.textContent = `${otherCostsPercent}%`;
 
+      // Calculate amounts based on basePrice and slider percentages
       const bomAmount = basePrice * (bomPercent / 100);
-      const tariffCost = bomAmount * (tariff / 100);
-      const otherCosts = basePrice * (otherCostsPercent / 100);
+      const otherCostsAmount = basePrice * (otherCostsPercent / 100);
+      const marginAmount = basePrice * (marginPercent / 100);
 
-      const estimatedRetail = (bomAmount * (1 + tariff / 100) + otherCosts) * (1 + marginRate);
+      // Tariff is applied ONLY to the BOM amount
+      const tariffCost = bomAmount * (tariffPercent / 100);
+
+      // Calculate the price before rounding
+      const estimatedRetail = bomAmount + otherCostsAmount + marginAmount + tariffCost;
+
+      // Round up to nearest xx9
       const finalRounded = roundUpTo99(estimatedRetail);
 
-      const actualMargin = finalRounded - bomAmount - tariffCost - otherCosts;
-
-      // Calculate actual margin percentage
-      const actualMarginPercent = finalRounded > 0 ? Math.round((actualMargin / finalRounded) * 100) : 0;
+      // Explanation parts
+      const totalNonTariff = bomAmount + otherCostsAmount + marginAmount;
+      const explanationText = `Base = $${basePrice} (BOM ${bomPercent}% + Other ${otherCostsPercent}% + Margin ${marginPercent}%) = $${totalNonTariff.toFixed(2)}<br>` +
+                              `Tariff on BOM ($${bomAmount.toFixed(2)} @ ${tariffPercent}%) = $${tariffCost.toFixed(2)}<br>` +
+                              `Total Estimated = $${estimatedRetail.toFixed(2)} -> Rounded = $${finalRounded}`;
 
       finalPriceEl.textContent = `$${finalRounded}`;
       basePriceEl.textContent = `$${basePrice}`;
 
-      explanationEl.innerHTML = `BOM = $${Math.round(bomAmount)}, Tariff = $${Math.round(tariffCost)}, Other Costs = $${Math.round(otherCosts)} (${otherCostsPercent}%), <br>Actual Margin = $${Math.round(actualMargin)} (${actualMarginPercent}%), Final Price = $${finalRounded}`;
+      explanationEl.innerHTML = explanationText;
 
-      if (tariff > 0 && bomPercent > 0) {
+      if (tariffPercent > 0 && bomPercent > 0) {
         basePriceEl.classList.add("line-through", "text-gray-400");
-        basePriceEl.style.display = "block";
+        basePriceEl.style.display = "inline-block"; // Use inline-block to keep on same line potentially
+        finalPriceEl.classList.add("text-red-600"); // Make final price red when tariff > 0
       } else {
         basePriceEl.classList.remove("line-through", "text-gray-400");
         basePriceEl.style.display = "none";
+        finalPriceEl.classList.remove("text-red-600"); // Revert color when tariff is 0
       }
 
       // --- Update slider fill colors ---
@@ -387,11 +411,11 @@
       updateSliderFill(otherCostsPercentInput);
       updateSliderFill(marginInput);
 
-      // Toggle reset button visibility - Use the current category's default BOM
-      resetBomLink.classList.toggle("hidden", parseFloat(bomInput.value) === defaultBom);
-      resetTariffLink.classList.toggle("hidden", parseFloat(tariffInput.value) === defaultTariff);
-      resetMarginLink.classList.toggle("hidden", parseFloat(marginInput.value) === defaultMargin);
-      resetOtherCostsLink.classList.toggle("hidden", parseFloat(otherCostsPercentInput.value) === defaultOtherCostsPercent);
+      // Toggle reset button visibility - Use the current category's default values
+      resetBomLink.classList.toggle("hidden", bomPercent === categoryDefaults.defaultBom);
+      resetTariffLink.classList.toggle("hidden", tariffPercent === defaultTariff); // defaultTariff is global 0
+      resetMarginLink.classList.toggle("hidden", marginPercent === categoryDefaults.defaultMargin);
+      resetOtherCostsLink.classList.toggle("hidden", otherCostsPercent === categoryDefaults.defaultOtherCosts);
     }
 
     // --- Category Switching Logic ---
@@ -399,7 +423,7 @@
         if (newCategory === currentCategory) return; // No change
 
         currentCategory = newCategory;
-        defaultBom = productData[currentCategory].defaultBom; // Update default BOM for the category
+        const categoryDefaults = productData[currentCategory]; // Get defaults for the new category
 
         // Update active link style
         document.querySelectorAll('.category-link').forEach(link => {
@@ -407,9 +431,20 @@
         });
 
         populateProductSelect(currentCategory);
-        bomInput.value = defaultBom; // Reset BOM slider to new category default
-        updateSliderFill(bomInput); // Update fill for reset BOM
-        updatePrices(); // Recalculate with new product list and BOM default
+
+        // Reset sliders to the NEW category defaults
+        bomInput.value = categoryDefaults.defaultBom;
+        otherCostsPercentInput.value = categoryDefaults.defaultOtherCosts;
+        marginInput.value = categoryDefaults.defaultMargin;
+        tariffInput.value = defaultTariff; // Reset tariff to 0 on category switch
+
+        // Update slider fills for the reset values
+        updateSliderFill(bomInput);
+        updateSliderFill(otherCostsPercentInput);
+        updateSliderFill(marginInput);
+        updateSliderFill(tariffInput);
+
+        updatePrices(); // Recalculate with new product list and defaults
     }
 
     categorySwitcher.addEventListener('click', (e) => {
@@ -448,31 +483,36 @@
     // Reset link event listeners
     resetBomLink.addEventListener("click", (e) => {
       e.preventDefault();
-      bomInput.value = defaultBom; // Reset to current category's default
+      bomInput.value = productData[currentCategory].defaultBom; // Reset to current category's default
       updatePrices();
     });
 
     resetTariffLink.addEventListener("click", (e) => {
       e.preventDefault();
-      tariffInput.value = defaultTariff;
+      tariffInput.value = defaultTariff; // Reset to global default (0)
       updatePrices();
     });
 
     resetMarginLink.addEventListener("click", (e) => {
       e.preventDefault();
-      marginInput.value = defaultMargin;
+      marginInput.value = productData[currentCategory].defaultMargin; // Reset to current category's default
       updatePrices();
     });
 
     resetOtherCostsLink.addEventListener("click", (e) => {
       e.preventDefault();
-      otherCostsPercentInput.value = defaultOtherCostsPercent;
+      otherCostsPercentInput.value = productData[currentCategory].defaultOtherCosts; // Reset to current category's default
       updatePrices();
     });
 
     // Initial setup
     populateProductSelect(currentCategory); // Populate initial product dropdown
-    bomInput.value = defaultBom; // Set initial BOM slider value based on category default
+    // Set initial slider values based on the default category's defaults
+    bomInput.value = productData[currentCategory].defaultBom;
+    otherCostsPercentInput.value = productData[currentCategory].defaultOtherCosts;
+    marginInput.value = productData[currentCategory].defaultMargin;
+    tariffInput.value = defaultTariff; // Start tariff at 0
+
     // Apply initial fill to all sliders
     [tariffInput, bomInput, otherCostsPercentInput, marginInput].forEach(updateSliderFill);
     updatePrices(); // Initial calculation
