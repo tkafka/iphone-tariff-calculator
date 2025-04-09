@@ -133,7 +133,7 @@
          <span id="priceIncrease" class="ml-2 text-lg font-medium text-red-600 hidden"></span> <!-- Percentage increase, start hidden -->
       </div>
 
-      <div id="explanation" class="text-sm text-gray-700 mt-4 mb-4"></div> <!-- Added bottom margin -->
+      <div id="explanation" class="text-sm text-gray-700 mt-4 mb-6"></div> <!-- Increased bottom margin -->
 
       <!-- Separator and Subtitle for Secondary Sliders -->
       <hr class="my-4 border-gray-200">
@@ -342,7 +342,7 @@
     const resetOtherCostsLink = document.getElementById("resetOtherCosts");
 
     // Default values (will be updated based on category)
-    const defaultTariff = 104; // Tariff default should be 0 now to show base price
+    const defaultTariff = 104; // Tariff default set to 104
 
     function roundUpTo99(amount) {
       // Avoid rounding $0 to $-1
