@@ -24,13 +24,22 @@
       <option value="16promax">iPhone 16 Pro Max - $1199</option>
     </select>
 
-    <label for="bom" class="block text-lg font-medium mb-2">Bill of Materials (BOM) portion: <span id="bomValue">55%</span></label>
+    <div class="flex items-center justify-center mb-2">
+      <label for="bom" class="text-lg font-medium">Bill of Materials (BOM) portion: <span id="bomValue">55%</span></label>
+      <a id="resetBom" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
+    </div>
     <input type="range" id="bom" min="0" max="100" value="55" class="w-full mb-6" />
 
-    <label for="tariff" class="block text-lg font-medium mb-2">Import tax: <span id="tariffValue">0%</span></label>
+    <div class="flex items-center justify-center mb-2">
+      <label for="tariff" class="text-lg font-medium">Import tax: <span id="tariffValue">0%</span></label>
+      <a id="resetTariff" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
+    </div>
     <input type="range" id="tariff" min="0" max="400" value="0" class="w-full mb-6" />
 
-    <label for="margin" class="block text-lg font-medium mb-2">Intended Profit Margin: <span id="marginValue">39%</span></label>
+    <div class="flex items-center justify-center mb-2">
+      <label for="margin" class="text-lg font-medium">Intended Profit Margin: <span id="marginValue">39%</span></label>
+      <a id="resetMargin" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
+    </div>
     <input type="range" id="margin" min="0" max="100" value="39" class="w-full mb-6" />
 
     <div class="relative">
@@ -100,6 +109,16 @@
     const explanationEl = document.getElementById("explanation");
     const phoneImageEl = document.getElementById("phoneImage");
 
+    // Get reset links
+    const resetBomLink = document.getElementById("resetBom");
+    const resetTariffLink = document.getElementById("resetTariff");
+    const resetMarginLink = document.getElementById("resetMargin");
+
+    // Default values
+    const defaultBom = 55;
+    const defaultTariff = 0;
+    const defaultMargin = 39;
+
     function roundUpTo99(amount) {
       return Math.ceil(amount / 100) * 100 - 1;
     }
@@ -139,13 +158,38 @@
         basePriceEl.classList.remove("line-through", "text-gray-400");
         basePriceEl.style.visibility = "hidden";
       }
+
+      // Toggle reset button visibility
+      resetBomLink.classList.toggle("hidden", parseFloat(bomInput.value) === defaultBom);
+      resetTariffLink.classList.toggle("hidden", parseFloat(tariffInput.value) === defaultTariff);
+      resetMarginLink.classList.toggle("hidden", parseFloat(marginInput.value) === defaultMargin);
     }
 
     bomInput.addEventListener("input", updatePrices);
     tariffInput.addEventListener("input", updatePrices);
     marginInput.addEventListener("input", updatePrices);
     modelSelect.addEventListener("change", updatePrices);
-    updatePrices();
+
+    // Reset link event listeners
+    resetBomLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      bomInput.value = defaultBom;
+      updatePrices();
+    });
+
+    resetTariffLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      tariffInput.value = defaultTariff;
+      updatePrices();
+    });
+
+    resetMarginLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      marginInput.value = defaultMargin;
+      updatePrices();
+    });
+
+    updatePrices(); // Initial calculation
   </script>
 </body>
 </html>
