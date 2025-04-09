@@ -190,10 +190,10 @@
         Where Tariff on BOM = (Base Price × BOM %) × Tariff Rate<br/><br/>
         Where:<br/>
         <ul class="list-disc list-outside pl-5 space-y-1 mt-2">
-          <li><strong>BOM %</strong>: Cost of components as % of Base Price (Default: 51% iPhone, 46% Watch, 48% iPad, 56% MacBook, 57% Mac)</li>
-          <li><strong>Other Costs %</strong>: Other costs as % of Base Price (Default: 12% iPhone, 13% Watch, 13% iPad, 11% MacBook, 11% Mac)</li>
-          <li><strong>Margin %</strong>: Profit margin as % of Base Price (Default: 37% iPhone, 41% Watch, 39% iPad, 33% MacBook, 32% Mac)</li>
-          <li><strong>Tariff Rate</strong>: U.S. import tax applied *only* to the BOM Cost portion.</li>
+          <li id="bomDefaultsDescription"><strong>BOM %</strong>: Cost of components as % of Base Price (Default: 51% iPhone, 46% Watch, 48% iPad, 56% MacBook, 57% Mac)</li>
+          <li id="otherCostsDefaultsDescription"><strong>Other Costs %</strong>: Other costs as % of Base Price (Default: 12% iPhone, 13% Watch, 13% iPad, 11% MacBook, 11% Mac)</li>
+          <li id="marginDefaultsDescription"><strong>Margin %</strong>: Profit margin as % of Base Price (Default: 37% iPhone, 41% Watch, 39% iPad, 33% MacBook, 32% Mac)</li>
+          <li><strong>Tariff Rate</strong>: We assume U.S. import tax applies *only* to the BOM Cost portion.</li>
         </ul>
         
       </div>
@@ -620,6 +620,43 @@
     // Apply initial fill to all sliders
     [tariffInput, bomInput, otherCostsPercentInput, marginInput].forEach(updateSliderFill);
     updatePrices(); // Initial calculation
+
+    // --- Dynamically update default descriptions ---
+    function updateDefaultDescriptions() {
+        const bomLi = document.getElementById('bomDefaultsDescription');
+        const otherCostsLi = document.getElementById('otherCostsDefaultsDescription');
+        const marginLi = document.getElementById('marginDefaultsDescription');
+
+        if (!bomLi || !otherCostsLi || !marginLi) {
+            console.error("Could not find default description list items.");
+            return; // Exit if elements aren't found
+        }
+
+
+        let bomStrings = [];
+        let otherCostsStrings = [];
+        let marginStrings = [];
+
+        // Define the order of categories explicitly to match the desired output
+        const categoryOrder = ["iPhone", "Watch", "iPad", "MacBook", "Mac"]; 
+
+        categoryOrder.forEach(categoryName => {
+            if (productData[categoryName]) { // Check if category exists in data
+                const data = productData[categoryName];
+                bomStrings.push(`${data.defaultBom}% ${categoryName}`);
+                otherCostsStrings.push(`${data.defaultOtherCosts}% ${categoryName}`);
+                marginStrings.push(`${data.defaultMargin}% ${categoryName}`);
+            }
+        });
+
+        bomLi.innerHTML = `<strong>BOM %</strong>: Cost of components as % of Base Price (Default: ${bomStrings.join(', ')})`;
+        otherCostsLi.innerHTML = `<strong>Other Costs %</strong>: Other costs as % of Base Price (Default: ${otherCostsStrings.join(', ')})`;
+        marginLi.innerHTML = `<strong>Margin %</strong>: Profit margin as % of Base Price (Default: ${marginStrings.join(', ')})`;
+    }
+
+    updateDefaultDescriptions(); // Call the function to update descriptions on load
+    // --- End dynamic update ---
+
   </script>
 </body>
 </html>
