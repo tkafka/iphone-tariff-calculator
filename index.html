@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apple Product Tariff Calculator</title>
 
   <!-- General Meta Tags -->
-  <meta name="description" content="Calculate the potential retail price of Apple products like iPhone, Watch, MacBook, and Mac after applying import tariffs. Adjust BOM, Other Costs, and Margin percentages.">
-  <meta name="keywords" content="Apple, iPhone, Watch, MacBook, Mac, tariff, calculator, import tax, price, cost, BOM, bill of materials, profit margin, retail price, iPhone 16, Apple Watch Series 10, MacBook Air M4, MacBook Pro M4, Mac mini M4, iMac, Mac Studio, estimate, calculation">
+  <meta name="description"
+    content="Calculate the potential retail price of Apple products like iPhone, Watch, MacBook, and Mac after applying import tariffs. Adjust BOM, Other Costs, and Margin percentages.">
+  <meta name="keywords"
+    content="Apple, iPhone, Watch, MacBook, Mac, tariff, calculator, import tax, price, cost, BOM, bill of materials, profit margin, retail price, iPhone 16, Apple Watch Series 10, MacBook Air M4, MacBook Pro M4, Mac mini M4, iMac, Mac Studio, estimate, calculation">
   <link rel="canonical" href="https://tariffs.weathergraph.app"> <!-- Replace with your actual URL -->
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tariffs.weathergraph.app">
   <meta property="og:title" content="Apple Product Tariff Calculator">
-  <meta property="og:description" content="Calculate the potential retail price of Apple products like iPhone, Watch, MacBook, and Mac after applying import tariffs.">
+  <meta property="og:description"
+    content="Calculate the potential retail price of Apple products like iPhone, Watch, MacBook, and Mac after applying import tariffs.">
   <meta property="og:image" content="https://tariffs.weathergraph.app/apple-tariff-calculator.png">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://tariffs.weathergraph.app"> <!-- Replace with your actual URL -->
   <meta property="twitter:title" content="Apple Product Tariff Calculator">
-  <meta property="twitter:description" content="Calculate the potential retail price of Apple products like iPhone, Watch, MacBook, and Mac after applying import tariffs.">
+  <meta property="twitter:description"
+    content="Calculate the potential retail price of Apple products like iPhone, Watch, MacBook, and Mac after applying import tariffs.">
   <meta property="twitter:image" content="https://tariffs.weathergraph.app/apple-tariff-calculator.png">
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -29,64 +34,82 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     }
+
     .category-link.active {
-        font-weight: bold;
-        color: #3b82f6; /* blue-500 */
-        text-decoration: underline;
+      font-weight: bold;
+      color: #3b82f6;
+      /* blue-500 */
+      text-decoration: underline;
     }
 
     /* Custom Slider Track Styles */
     .tariff-slider::-webkit-slider-runnable-track {
-      height: 8px; /* Adjust thickness */
-      /* background-color: #d1d5db; */ /* Removed - Handled by JS */
+      height: 8px;
+      /* Adjust thickness */
+      /* background-color: #d1d5db; */
+      /* Removed - Handled by JS */
       border-radius: 9999px;
       cursor: pointer;
     }
+
     .tariff-slider::-moz-range-track {
-      height: 8px; /* Adjust thickness */
-      /* background-color: #d1d5db; */ /* Removed - Handled by JS */
+      height: 8px;
+      /* Adjust thickness */
+      /* background-color: #d1d5db; */
+      /* Removed - Handled by JS */
       border-radius: 9999px;
       cursor: pointer;
     }
 
     .secondary-slider::-webkit-slider-runnable-track {
-      height: 4px; /* Thinner track */
-      /* background-color: #e5e7eb; */ /* Removed - Handled by JS */
-      border-radius: 9999px;
-      cursor: pointer;
-    }
-     .secondary-slider::-moz-range-track {
-      height: 4px; /* Thinner track */
-      /* background-color: #e5e7eb; */ /* Removed - Handled by JS */
+      height: 4px;
+      /* Thinner track */
+      /* background-color: #e5e7eb; */
+      /* Removed - Handled by JS */
       border-radius: 9999px;
       cursor: pointer;
     }
 
-     /* Optional: Adjust thumb vertical alignment if needed due to track height change */
+    .secondary-slider::-moz-range-track {
+      height: 4px;
+      /* Thinner track */
+      /* background-color: #e5e7eb; */
+      /* Removed - Handled by JS */
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+
+    /* Optional: Adjust thumb vertical alignment if needed due to track height change */
     .tariff-slider::-webkit-slider-thumb {
-      margin-top: -3.5px; /* Fine-tune vertical centering */
+      margin-top: -3.5px;
+      /* Fine-tune vertical centering */
     }
-     .secondary-slider::-webkit-slider-thumb {
-       margin-top: -6px; /* Fine-tune vertical centering */
+
+    .secondary-slider::-webkit-slider-thumb {
+      margin-top: -6px;
+      /* Fine-tune vertical centering */
     }
-     /* Firefox thumb alignment is usually okay */
+
+    /* Firefox thumb alignment is usually okay */
 
     .tabular-nums {
       font-variant-numeric: tabular-nums;
     }
-
   </style>
 </head>
+
 <body class="bg-white text-gray-900 p-6 pb-28">
   <div class="max-w-md mx-auto text-center">
     <h1 class="text-2xl font-bold mb-4">Apple Tariff Calculator</h1>
 
     <!-- Category Switcher -->
     <div id="categorySwitcher" class="mb-4 text-lg text-gray-500">
-      <a href="#" data-category="iPhone" class="category-link active px-2 py-1 text-blue-600 hover:text-blue-800">iPhone</a> |
+      <a href="#" data-category="iPhone"
+        class="category-link active px-2 py-1 text-blue-600 hover:text-blue-800">iPhone</a> |
       <a href="#" data-category="Watch" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">Watch</a> |
       <a href="#" data-category="iPad" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">iPad</a> |
-      <a href="#" data-category="MacBook" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">MacBook</a> |
+      <a href="#" data-category="MacBook" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">MacBook</a>
+      |
       <a href="#" data-category="Mac" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">Mac</a>
     </div>
 
@@ -117,28 +140,28 @@
     <!-- Tariff Slider Container (Prominent) -->
     <div class="bg-gray-50 p-4 rounded-lg mb-6">
       <div class="flex items-center justify-center mb-2">
-        <label for="tariff" class="text-lg font-medium">Import Tariff: <span id="tariffValue" class="tabular-nums">0%</span></label>
+        <label for="tariff" class="text-lg font-medium">Import Tariff: <span id="tariffValue"
+            class="tabular-nums">0%</span></label>
         <a id="resetTariff" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
       </div>
       <input type="range" id="tariff" min="0" max="400" value="0" class="w-full tariff-slider" /> <!-- Removed mb-4 -->
     </div> <!-- End of Tariff Slider Container -->
 
     <div class="relative">
-      <img
-        id="phoneImage"
+      <img id="phoneImage"
         src="https://www.apple.com/newsroom/images/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/tile/geo/Apple-iPhone-16-lineup-geo-240909-lp.jpg.og.jpg?202503102014"
-        alt="Product image"
-        class="mx-auto mb-4 rounded-2xl"
-      />
+        alt="Product image" class="mx-auto mb-4 rounded-2xl" />
 
       <!-- Wrapper for Price and Summary -->
       <div class="mb-8"> <!-- Added wrapper and bottom margin -->
         <!-- New Price Display Container -->
         <div class="mt-2 text-center text-xl"> <!-- Centered container -->
-            <!-- Spans will display inline-block by default -->
-           <span id="basePrice" class="text-gray-500 mr-2 hidden tabular-nums">$799</span> <!-- Base price, start hidden -->
-           <span id="finalPrice" class="font-semibold tabular-nums">$799</span> <!-- Final price -->
-           <span id="priceIncrease" class="ml-2 text-lg font-medium text-red-600 hidden tabular-nums"></span> <!-- Percentage increase, start hidden -->
+          <!-- Spans will display inline-block by default -->
+          <span id="basePrice" class="text-gray-500 mr-2 hidden tabular-nums">$799</span>
+          <!-- Base price, start hidden -->
+          <span id="finalPrice" class="font-semibold tabular-nums">$799</span> <!-- Final price -->
+          <span id="priceIncrease" class="ml-2 text-lg font-medium text-red-600 hidden tabular-nums"></span>
+          <!-- Percentage increase, start hidden -->
         </div>
         <!-- Price Summary Sentence -->
         <div id="priceSummary" class="text text-gray-600 mt-1 text-center tabular-nums hidden"></div>
@@ -156,50 +179,58 @@
       <!-- Moved Secondary Sliders (Expert Tuning) -->
       <div class="flex justify-between gap-4 mb-6"> <!-- No background, added bottom margin -->
 
-         <!-- BOM Slider -->
-         <div class="w-1/3 text-left">
-           <label for="bom" class="block text-xs font-normal text-gray-600 mb-1">BOM:</label> <!-- Smaller label -->
-           <div class="flex justify-between items-center mb-1">
-               <span id="bomValue" class="text-sm font-normal text-gray-700 tabular-nums">55%</span>
-               <a id="resetBom" class="text-xs text-blue-500 hover:text-blue-700 cursor-pointer hidden">&times;</a>
-           </div>
-           <input type="range" id="bom" min="0" max="100" value="55" class="w-full accent-gray-500 secondary-slider" />
-         </div>
-
-         <!-- Other Costs Slider -->
-          <div class="w-1/3 text-left">
-            <label for="otherCostsPercent" class="block text-xs font-normal text-gray-600 mb-1">Other Costs:</label> <!-- Smaller label -->
-            <div class="flex justify-between items-center mb-1">
-                <span id="otherCostsPercentValue" class="text-sm font-normal text-gray-700 tabular-nums">13%</span>
-                <a id="resetOtherCosts" class="text-xs text-blue-500 hover:text-blue-700 cursor-pointer hidden">&times;</a>
-            </div>
-            <input type="range" id="otherCostsPercent" min="0" max="50" value="13" class="w-full accent-gray-500 secondary-slider" />
+        <!-- BOM Slider -->
+        <div class="w-1/3 text-left">
+          <label for="bom" class="block text-xs font-normal text-gray-600 mb-1">BOM:</label> <!-- Smaller label -->
+          <div class="flex justify-between items-center mb-1">
+            <span id="bomValue" class="text-sm font-normal text-gray-700 tabular-nums">55%</span>
+            <a id="resetBom" class="text-xs text-blue-500 hover:text-blue-700 cursor-pointer hidden">&times;</a>
           </div>
+          <input type="range" id="bom" min="0" max="100" value="55" class="w-full accent-gray-500 secondary-slider" />
+        </div>
 
-         <!-- Margin Slider -->
-         <div class="w-1/3 text-left">
-            <label for="margin" class="block text-xs font-normal text-gray-600 mb-1">Profit Margin:</label> <!-- Smaller label -->
-            <div class="flex justify-between items-center mb-1">
-                <span id="marginValue" class="text-sm font-normal text-gray-700 tabular-nums">39%</span>
-                <a id="resetMargin" class="text-xs text-blue-500 hover:text-blue-700 cursor-pointer hidden">&times;</a>
-            </div>
-            <input type="range" id="margin" min="0" max="100" value="39" class="w-full accent-gray-500 secondary-slider" />
-         </div>
+        <!-- Other Costs Slider -->
+        <div class="w-1/3 text-left">
+          <label for="otherCostsPercent" class="block text-xs font-normal text-gray-600 mb-1">Other Costs:</label>
+          <!-- Smaller label -->
+          <div class="flex justify-between items-center mb-1">
+            <span id="otherCostsPercentValue" class="text-sm font-normal text-gray-700 tabular-nums">13%</span>
+            <a id="resetOtherCosts" class="text-xs text-blue-500 hover:text-blue-700 cursor-pointer hidden">&times;</a>
+          </div>
+          <input type="range" id="otherCostsPercent" min="0" max="50" value="13"
+            class="w-full accent-gray-500 secondary-slider" />
+        </div>
 
-     </div> <!-- End of Secondary Sliders -->
+        <!-- Margin Slider -->
+        <div class="w-1/3 text-left">
+          <label for="margin" class="block text-xs font-normal text-gray-600 mb-1">Profit Margin:</label>
+          <!-- Smaller label -->
+          <div class="flex justify-between items-center mb-1">
+            <span id="marginValue" class="text-sm font-normal text-gray-700 tabular-nums">39%</span>
+            <a id="resetMargin" class="text-xs text-blue-500 hover:text-blue-700 cursor-pointer hidden">&times;</a>
+          </div>
+          <input type="range" id="margin" min="0" max="100" value="39"
+            class="w-full accent-gray-500 secondary-slider" />
+        </div>
+
+      </div> <!-- End of Secondary Sliders -->
 
       <div class="text-left text-sm text-gray-600 mt-6 border-t pt-4">
-        <strong>Calculation Method:</strong><br/>
-        Final Price = (Base Price × BOM %) + (Base Price × Other Costs %) + (Base Price × Margin %) + (Tariff on BOM)<br/>
-        Where Tariff on BOM = (Base Price × BOM %) × Tariff Rate<br/><br/>
-        Where:<br/>
+        <strong>Calculation Method:</strong><br />
+        Final Price = (Base Price × BOM %) + (Base Price × Other Costs %) + (Base Price × Margin %) + (Tariff on
+        BOM)<br />
+        Where Tariff on BOM = (Base Price × BOM %) × Tariff Rate<br /><br />
+        Where:<br />
         <ul class="list-disc list-outside pl-5 space-y-1 mt-2">
-          <li id="bomDefaultsDescription" class="tabular-nums"><strong>BOM %</strong>: Cost of components as % of Base Price (Default: 51% iPhone, 46% Watch, 48% iPad, 56% MacBook, 57% Mac)</li>
-          <li id="otherCostsDefaultsDescription" class="tabular-nums"><strong>Other Costs %</strong>: Other costs as % of Base Price (Default: 12% iPhone, 13% Watch, 13% iPad, 11% MacBook, 11% Mac)</li>
-          <li id="marginDefaultsDescription" class="tabular-nums"><strong>Margin %</strong>: Profit margin as % of Base Price (Default: 37% iPhone, 41% Watch, 39% iPad, 33% MacBook, 32% Mac)</li>
+          <li id="bomDefaultsDescription" class="tabular-nums"><strong>BOM %</strong>: Cost of components as % of Base
+            Price (Default: 51% iPhone, 46% Watch, 48% iPad, 56% MacBook, 57% Mac)</li>
+          <li id="otherCostsDefaultsDescription" class="tabular-nums"><strong>Other Costs %</strong>: Other costs as %
+            of Base Price (Default: 12% iPhone, 13% Watch, 13% iPad, 11% MacBook, 11% Mac)</li>
+          <li id="marginDefaultsDescription" class="tabular-nums"><strong>Margin %</strong>: Profit margin as % of Base
+            Price (Default: 37% iPhone, 41% Watch, 39% iPad, 33% MacBook, 32% Mac)</li>
           <li><strong>Tariff Rate</strong>: We assume U.S. import tax applies *only* to the BOM Cost portion.</li>
         </ul>
-        
+
       </div>
     </div>
   </div>
@@ -243,21 +274,21 @@
         defaultOtherCosts: 13,
         defaultMargin: 41,
         products: {
-            "se_40": {
-                name: "Apple Watch SE",
-                price: 249,
-                image: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MYG03ref_FV98_VW_34FR+watch-case-44-aluminum-midnight-nc-se_VW_34FR+watch-face-44-aluminum-midnight-se_VW_34FR?wid=2000&hei=2000&fmt=png-alpha&.v=OUh6OFdFVEJxVkF6SUo5TWxpTE50MG5TeWJ6QW43NUFnQ2V4cmRFc1VnWWxvMTNVeXVWaTk0Ui9PSEVKVVU0dzN2QVRTWW5kR2Jad3ptYU8zZ21EUWZmQXlUU2xCQ2pTN3lrcDE0UU1hK0ZpRFN2VTEyRk9ZNEFubk9kM01kUmIySDNGVkFuTWJDdzY3LzhwNXhBeGd1SGpaRFFxc2owYmpHVDUzTnBBbHhWTGczaFhEVzlIZ1ZNWGl6QUFCWE5OZ1JNaDBKYVhZeVUreEN5elJpM3E3QQ"
-            },
-            "series10_42": {
-                name: "Apple Watch Series 10 (42mm, GPS)",
-                price: 399,
-                image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/s10-case-unselect-gallery-1-202503_FMT_WHH?wid=752&hei=720&fmt=p-jpg&qlt=80&.v=1739305297853"
-            },
-            "ultra2_49": {
-                name: "Apple Watch Ultra 2 (49mm, GPS+Cellular)",
-                price: 799,
-                image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ultra-case-unselect-gallery-1-202409_GEO_CZ_FMT_WHH?wid=752&hei=720&fmt=p-jpg&qlt=80&.v=1725370972114"
-            }
+          "se_40": {
+            name: "Apple Watch SE",
+            price: 249,
+            image: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MYG03ref_FV98_VW_34FR+watch-case-44-aluminum-midnight-nc-se_VW_34FR+watch-face-44-aluminum-midnight-se_VW_34FR?wid=2000&hei=2000&fmt=png-alpha&.v=OUh6OFdFVEJxVkF6SUo5TWxpTE50MG5TeWJ6QW43NUFnQ2V4cmRFc1VnWWxvMTNVeXVWaTk0Ui9PSEVKVVU0dzN2QVRTWW5kR2Jad3ptYU8zZ21EUWZmQXlUU2xCQ2pTN3lrcDE0UU1hK0ZpRFN2VTEyRk9ZNEFubk9kM01kUmIySDNGVkFuTWJDdzY3LzhwNXhBeGd1SGpaRFFxc2owYmpHVDUzTnBBbHhWTGczaFhEVzlIZ1ZNWGl6QUFCWE5OZ1JNaDBKYVhZeVUreEN5elJpM3E3QQ"
+          },
+          "series10_42": {
+            name: "Apple Watch Series 10 (42mm, GPS)",
+            price: 399,
+            image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/s10-case-unselect-gallery-1-202503_FMT_WHH?wid=752&hei=720&fmt=p-jpg&qlt=80&.v=1739305297853"
+          },
+          "ultra2_49": {
+            name: "Apple Watch Ultra 2 (49mm, GPS+Cellular)",
+            price: 799,
+            image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ultra-case-unselect-gallery-1-202409_GEO_CZ_FMT_WHH?wid=752&hei=720&fmt=p-jpg&qlt=80&.v=1725370972114"
+          }
         }
       },
       "iPad": { // New iPad Category
@@ -302,31 +333,31 @@
         defaultOtherCosts: 11,
         defaultMargin: 33,
         products: {
-            "mba_13_m4": {
-                name: "MacBook Air 13\" (M4, 16GB/256GB)",
-                price: 999,
-                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba13-silver-cto-hero-202503_FMT_WHH?wid=448&hei=272&fmt=jpeg&qlt=90&.v=1739304594224"
-            },
-            "mba_15_m4": {
-                name: "MacBook Air 15\" (M4, 16GB/256GB)",
-                price: 1199,
-                image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mba15-starlight-config-202503_FMT_WHH?wid=448&hei=272&fmt=jpeg&qlt=90&.v=1739918914455"
-            },
-            "mbp_14_m4": {
-                name: "MacBook Pro 14\" (M4, 16GB/512GB)",
-                price: 1599,
-                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-pro-og-202410?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1728658184478"
-            },
-            "mbp_16_m4pro": {
-                name: "MacBook Pro 16\" (M4 Pro, 24GB/512GB)",
-                price: 2499,
-                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-pro-og-202410?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1728658184478"
-            },
-             "mbp_16_m4max": {
-                name: "MacBook Pro 16\" (M4 Max, 36GB/1TB)",
-                price: 3499,
-                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-pro-og-202410?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1728658184478"
-            }
+          "mba_13_m4": {
+            name: "MacBook Air 13\" (M4, 16GB/256GB)",
+            price: 999,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba13-silver-cto-hero-202503_FMT_WHH?wid=448&hei=272&fmt=jpeg&qlt=90&.v=1739304594224"
+          },
+          "mba_15_m4": {
+            name: "MacBook Air 15\" (M4, 16GB/256GB)",
+            price: 1199,
+            image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mba15-starlight-config-202503_FMT_WHH?wid=448&hei=272&fmt=jpeg&qlt=90&.v=1739918914455"
+          },
+          "mbp_14_m4": {
+            name: "MacBook Pro 14\" (M4, 16GB/512GB)",
+            price: 1599,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-pro-og-202410?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1728658184478"
+          },
+          "mbp_16_m4pro": {
+            name: "MacBook Pro 16\" (M4 Pro, 24GB/512GB)",
+            price: 2499,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-pro-og-202410?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1728658184478"
+          },
+          "mbp_16_m4max": {
+            name: "MacBook Pro 16\" (M4 Max, 36GB/1TB)",
+            price: 3499,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-pro-og-202410?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1728658184478"
+          }
         }
       },
       "Mac": { // New Mac category for desktops/studio/pro
@@ -420,18 +451,18 @@
     }
 
     function populateProductSelect(category) {
-        productSelect.innerHTML = ''; // Clear existing options
-        const categoryProducts = productData[category].products;
-        Object.keys(categoryProducts).forEach((key, index) => {
-            const product = categoryProducts[key];
-            const option = document.createElement('option');
-            option.value = key;
-            option.textContent = `${product.name} - $${product.price}`;
-            if (index === 0) { // Select the first product by default
-                 option.selected = true;
-            }
-            productSelect.appendChild(option);
-        });
+      productSelect.innerHTML = ''; // Clear existing options
+      const categoryProducts = productData[category].products;
+      Object.keys(categoryProducts).forEach((key, index) => {
+        const product = categoryProducts[key];
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = `${product.name} - $${product.price}`;
+        if (index === 0) { // Select the first product by default
+          option.selected = true;
+        }
+        productSelect.appendChild(option);
+      });
     }
 
     function updatePrices() {
@@ -472,8 +503,8 @@
       // Explanation parts
       const totalNonTariff = bomAmount + otherCostsAmount + marginAmount;
       const explanationText = `Base = $${basePrice} (BOM ${bomPercent}% + Other ${otherCostsPercent}% + Margin ${marginPercent}%)<br/>` +
-                              `Tariff on BOM ($${bomAmount.toFixed(2)} @ ${tariffPercent}%) = $${tariffCost.toFixed(2)}<br/>` +
-                              `Total is $${estimatedRetail.toFixed(2)}, rounded to $${finalRounded}`;
+        `Tariff on BOM ($${bomAmount.toFixed(2)} @ ${tariffPercent}%) = $${tariffCost.toFixed(2)}<br/>` +
+        `Total is $${estimatedRetail.toFixed(2)}, rounded to $${finalRounded}`;
 
       finalPriceEl.textContent = `$${finalRounded}`;
       basePriceEl.textContent = `$${basePrice}`;
@@ -483,34 +514,34 @@
       // Calculate percentage increase
       let increasePercent = 0;
       if (basePrice > 0 && finalRounded > basePrice) {
-          increasePercent = ((finalRounded - basePrice) / basePrice) * 100;
+        increasePercent = ((finalRounded - basePrice) / basePrice) * 100;
       }
 
       // Update price display elements based on increase
       if (increasePercent > 0) {
-          priceIncreaseEl.textContent = `(+${increasePercent.toFixed(0)}%)`;
-          basePriceEl.classList.add("line-through"); // Apply line-through to base price
-          finalPriceEl.classList.add("text-red-600"); // Keep final price red
+        priceIncreaseEl.textContent = `(+${increasePercent.toFixed(0)}%)`;
+        basePriceEl.classList.add("line-through"); // Apply line-through to base price
+        finalPriceEl.classList.add("text-red-600"); // Keep final price red
 
-          // Make sure all elements are visible
-          basePriceEl.classList.remove("hidden");
-          priceIncreaseEl.classList.remove("hidden");
+        // Make sure all elements are visible
+        basePriceEl.classList.remove("hidden");
+        priceIncreaseEl.classList.remove("hidden");
 
-          // Construct and display the summary sentence
-          const summarySentence = `${product.name} might be ${increasePercent.toFixed(0)}% more expensive with a ${tariffPercent}% import tariff.`;
-          priceSummaryEl.textContent = summarySentence;
-          priceSummaryEl.classList.remove("hidden");
+        // Construct and display the summary sentence
+        const summarySentence = `${product.name} might be ${increasePercent.toFixed(0)}% more expensive with a ${tariffPercent}% import tariff.`;
+        priceSummaryEl.textContent = summarySentence;
+        priceSummaryEl.classList.remove("hidden");
 
       } else {
-          priceIncreaseEl.textContent = ''; // Clear text if no increase
-          basePriceEl.classList.remove("line-through");
-          finalPriceEl.classList.remove("text-red-600");
+        priceIncreaseEl.textContent = ''; // Clear text if no increase
+        basePriceEl.classList.remove("line-through");
+        finalPriceEl.classList.remove("text-red-600");
 
-          // Hide base price, increase element, and summary
-          basePriceEl.classList.add("hidden");
-          priceIncreaseEl.classList.add("hidden");
-          priceSummaryEl.textContent = ''; // Clear summary text
-          priceSummaryEl.classList.add("hidden"); // Hide summary
+        // Hide base price, increase element, and summary
+        basePriceEl.classList.add("hidden");
+        priceIncreaseEl.classList.add("hidden");
+        priceSummaryEl.textContent = ''; // Clear summary text
+        priceSummaryEl.classList.add("hidden"); // Hide summary
       }
 
       // --- Update slider fill colors ---
@@ -528,56 +559,56 @@
 
     // --- Category Switching Logic ---
     function switchCategory(newCategory) {
-        if (newCategory === currentCategory) return; // No change
+      if (newCategory === currentCategory) return; // No change
 
-        currentCategory = newCategory;
-        const categoryDefaults = productData[currentCategory]; // Get defaults for the new category
+      currentCategory = newCategory;
+      const categoryDefaults = productData[currentCategory]; // Get defaults for the new category
 
-        // Update active link style
-        document.querySelectorAll('.category-link').forEach(link => {
-            link.classList.toggle('active', link.dataset.category === currentCategory);
-        });
+      // Update active link style
+      document.querySelectorAll('.category-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.category === currentCategory);
+      });
 
-        populateProductSelect(currentCategory);
+      populateProductSelect(currentCategory);
 
-        // Reset sliders to the NEW category defaults
-        bomInput.value = categoryDefaults.defaultBom;
-        otherCostsPercentInput.value = categoryDefaults.defaultOtherCosts;
-        marginInput.value = categoryDefaults.defaultMargin;
-        tariffInput.value = defaultTariff; // Reset tariff to 0 on category switch
+      // Reset sliders to the NEW category defaults
+      bomInput.value = categoryDefaults.defaultBom;
+      otherCostsPercentInput.value = categoryDefaults.defaultOtherCosts;
+      marginInput.value = categoryDefaults.defaultMargin;
+      tariffInput.value = defaultTariff; // Reset tariff to 0 on category switch
 
-        // Update slider fills for the reset values
-        updateSliderFill(bomInput);
-        updateSliderFill(otherCostsPercentInput);
-        updateSliderFill(marginInput);
-        updateSliderFill(tariffInput);
+      // Update slider fills for the reset values
+      updateSliderFill(bomInput);
+      updateSliderFill(otherCostsPercentInput);
+      updateSliderFill(marginInput);
+      updateSliderFill(tariffInput);
 
-        updatePrices(); // Recalculate with new product list and defaults
+      updatePrices(); // Recalculate with new product list and defaults
     }
 
     categorySwitcher.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (e.target.classList.contains('category-link')) {
-            switchCategory(e.target.dataset.category);
-        }
+      e.preventDefault();
+      if (e.target.classList.contains('category-link')) {
+        switchCategory(e.target.dataset.category);
+      }
     });
     // --- End Category Switching Logic ---
 
     // --- Function to update slider track fill ---
     function updateSliderFill(slider) {
-        const min = slider.min ? parseFloat(slider.min) : 0;
-        const max = slider.max ? parseFloat(slider.max) : 100;
-        const value = parseFloat(slider.value);
-        const percentage = ((value - min) / (max - min)) * 100;
+      const min = slider.min ? parseFloat(slider.min) : 0;
+      const max = slider.max ? parseFloat(slider.max) : 100;
+      const value = parseFloat(slider.value);
+      const percentage = ((value - min) / (max - min)) * 100;
 
-        let fillColor = '#6b7280'; // Default: gray-500
-        const trackColor = '#d1d5db'; // gray-300
+      let fillColor = '#6b7280'; // Default: gray-500
+      const trackColor = '#d1d5db'; // gray-300
 
-        if (slider.id === 'tariff') {
-            fillColor = '#3b82f6'; // blue-500 for tariff
-        }
+      if (slider.id === 'tariff') {
+        fillColor = '#3b82f6'; // blue-500 for tariff
+      }
 
-        slider.style.background = `linear-gradient(to right, ${fillColor} ${percentage}%, ${trackColor} ${percentage}%)`;
+      slider.style.background = `linear-gradient(to right, ${fillColor} ${percentage}%, ${trackColor} ${percentage}%)`;
     }
     // --- End Function to update slider track fill ---
 
@@ -628,35 +659,35 @@
 
     // --- Dynamically update default descriptions ---
     function updateDefaultDescriptions() {
-        const bomLi = document.getElementById('bomDefaultsDescription');
-        const otherCostsLi = document.getElementById('otherCostsDefaultsDescription');
-        const marginLi = document.getElementById('marginDefaultsDescription');
+      const bomLi = document.getElementById('bomDefaultsDescription');
+      const otherCostsLi = document.getElementById('otherCostsDefaultsDescription');
+      const marginLi = document.getElementById('marginDefaultsDescription');
 
-        if (!bomLi || !otherCostsLi || !marginLi) {
-            console.error("Could not find default description list items.");
-            return; // Exit if elements aren't found
+      if (!bomLi || !otherCostsLi || !marginLi) {
+        console.error("Could not find default description list items.");
+        return; // Exit if elements aren't found
+      }
+
+
+      let bomStrings = [];
+      let otherCostsStrings = [];
+      let marginStrings = [];
+
+      // Define the order of categories explicitly to match the desired output
+      const categoryOrder = ["iPhone", "Watch", "iPad", "MacBook", "Mac"];
+
+      categoryOrder.forEach(categoryName => {
+        if (productData[categoryName]) { // Check if category exists in data
+          const data = productData[categoryName];
+          bomStrings.push(`${data.defaultBom}% ${categoryName}`);
+          otherCostsStrings.push(`${data.defaultOtherCosts}% ${categoryName}`);
+          marginStrings.push(`${data.defaultMargin}% ${categoryName}`);
         }
+      });
 
-
-        let bomStrings = [];
-        let otherCostsStrings = [];
-        let marginStrings = [];
-
-        // Define the order of categories explicitly to match the desired output
-        const categoryOrder = ["iPhone", "Watch", "iPad", "MacBook", "Mac"]; 
-
-        categoryOrder.forEach(categoryName => {
-            if (productData[categoryName]) { // Check if category exists in data
-                const data = productData[categoryName];
-                bomStrings.push(`${data.defaultBom}% ${categoryName}`);
-                otherCostsStrings.push(`${data.defaultOtherCosts}% ${categoryName}`);
-                marginStrings.push(`${data.defaultMargin}% ${categoryName}`);
-            }
-        });
-
-        bomLi.innerHTML = `<strong>BOM %</strong>: Cost of components as % of Base Price (Default: ${bomStrings.join(', ')})`;
-        otherCostsLi.innerHTML = `<strong>Other Costs %</strong>: R&amp;D, marketing, distribution etc. as % of Base Price (Default: ${otherCostsStrings.join(', ')})`;
-        marginLi.innerHTML = `<strong>Margin %</strong>: Profit margin as % of Base Price (Default: ${marginStrings.join(', ')})`;
+      bomLi.innerHTML = `<strong>BOM %</strong>: Cost of components as % of Base Price (Default: ${bomStrings.join(', ')})`;
+      otherCostsLi.innerHTML = `<strong>Other Costs %</strong>: R&amp;D, marketing, distribution etc. as % of Base Price (Default: ${otherCostsStrings.join(', ')})`;
+      marginLi.innerHTML = `<strong>Margin %</strong>: Profit margin as % of Base Price (Default: ${marginStrings.join(', ')})`;
     }
 
     updateDefaultDescriptions(); // Call the function to update descriptions on load
@@ -664,23 +695,27 @@
 
   </script>
   <!-- Added Footer Credit -->
-<div class="text-center text-xs text-gray-400 mt-8 mb-4">
-    <a href="https://weathergraph.app/" target="_blank" class="text-blue-500 hover:text-blue-700"><img src="https://weathergraph.app/img/weathergraph-icon-round-256.png" alt="Weathergraph icon" class="inline h-3 align-middle"> Weathergraph</a>,<br/>a beautiful indie-made hour-by-hour weather forecast<br/>for iPhone, Apple Watch, and Mac.
+  <div class="text-center text-xs text-gray-400 mt-8 mb-4">
+    Made by <a href="https://weathergraph.app/" target="_blank" class="text-blue-500 hover:text-blue-700"><img
+        src="https://weathergraph.app/img/weathergraph-icon-round-256.png" alt="Weathergraph icon"
+        class="inline h-3 align-middle"> Weathergraph</a>,<br />a beautiful indie-made hour-by-hour weather
+    forecast<br />for iPhone, Apple Watch, and Mac.
   </div>
 
   <!-- floating footer-->
-   <!--
+  <!--
   <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white/75 backdrop-blur-md px-4 py-2 rounded-full text-center text-xs text-gray-500 z-10 shadow-md">
     Made by
 <a href="https://weathergraph.app/" target="_blank" class="text-blue-500 hover:text-blue-700 align-middle"><img src="https://weathergraph.app/img/weathergraph-icon-round-256.png" alt="Weathergraph icon" class="inline h-3 align-middle"> Weathergraph</a>
   </div>
 -->
 
-<!--
+  <!--
   <div class="fixed bottom-0 left-0 right-0 w-full bg-gray-100 p-3 text-center text-xs text-gray-500 border-t border-gray-200 z-10">
     Made by
 <a href="https://weathergraph.app/" target="_blank" class="text-blue-500 hover:text-blue-700 align-middle"><img src="https://weathergraph.app/img/weathergraph-icon-round-256.png" alt="Weathergraph icon" class="inline h-3 align-middle"> Weathergraph</a>,<br/>a beautiful indie-made hour-by-hour weather forecast<br/>for iPhone, Apple Watch, and Mac.
   </div>
 -->
 </body>
+
 </html>
