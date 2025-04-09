@@ -24,29 +24,63 @@
       <option value="16promax">iPhone 16 Pro Max - $1199</option>
     </select>
 
+    <!-- Original BOM, Margin, Other Costs sliders commented out for reference -->
+    <!--
     <div class="flex items-center justify-center mb-2">
       <label for="bom" class="text-lg font-medium">Bill of Materials (BOM) portion: <span id="bomValue">55%</span></label>
       <a id="resetBom" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
     </div>
     <input type="range" id="bom" min="0" max="100" value="55" class="w-full mb-6" />
-
-    <div class="flex items-center justify-center mb-2">
-      <label for="tariff" class="text-lg font-medium">Import tax: <span id="tariffValue">0%</span></label>
-      <a id="resetTariff" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
-    </div>
-    <input type="range" id="tariff" min="0" max="400" value="0" class="w-full mb-6" />
-
     <div class="flex items-center justify-center mb-2">
       <label for="margin" class="text-lg font-medium">Intended Profit Margin: <span id="marginValue">39%</span></label>
       <a id="resetMargin" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
     </div>
     <input type="range" id="margin" min="0" max="100" value="39" class="w-full mb-6" />
-
     <div class="flex items-center justify-center mb-2">
       <label for="otherCostsPercent" class="text-lg font-medium">Other Costs (% of Base Price): <span id="otherCostsPercentValue">13%</span></label>
       <a id="resetOtherCosts" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
     </div>
     <input type="range" id="otherCostsPercent" min="0" max="50" value="13" class="w-full mb-6" />
+    -->
+
+    <!-- Tariff Slider (Prominent) -->
+    <div class="flex items-center justify-center mb-2">
+      <label for="tariff" class="text-lg font-medium">Import Tariff: <span id="tariffValue">0%</span></label>
+      <a id="resetTariff" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
+    </div>
+    <input type="range" id="tariff" min="0" max="400" value="0" class="w-full mb-6" />
+
+    <!-- Row for less prominent sliders -->
+    <div class="flex justify-between gap-4 mb-6">  <!-- Simplified Flex container -->
+
+      <!-- BOM Slider -->
+      <div class="w-1/3"> <!-- Fixed width -->
+        <div class="flex justify-between items-baseline mb-1">
+          <label for="bom" class="block text-sm font-normal text-gray-700">BOM: <span id="bomValue">55%</span></label>
+          <a id="resetBom" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
+        </div>
+        <input type="range" id="bom" min="0" max="100" value="55" class="w-full accent-gray-500" />
+      </div>
+
+      <!-- Other Costs Slider -->
+       <div class="w-1/3"> <!-- Fixed width -->
+         <div class="flex justify-between items-baseline mb-1">
+            <label for="otherCostsPercent" class="block text-sm font-normal text-gray-700">Other Costs: <span id="otherCostsPercentValue">13%</span></label>
+            <a id="resetOtherCosts" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
+         </div>
+         <input type="range" id="otherCostsPercent" min="0" max="50" value="13" class="w-full accent-gray-500" />
+      </div>
+
+      <!-- Margin Slider -->
+      <div class="w-1/3"> <!-- Fixed width -->
+         <div class="flex justify-between items-baseline mb-1">
+            <label for="margin" class="block text-sm font-normal text-gray-700">Profit Margin: <span id="marginValue">39%</span></label>
+            <a id="resetMargin" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
+         </div>
+         <input type="range" id="margin" min="0" max="100" value="39" class="w-full accent-gray-500" />
+      </div>
+
+    </div>
 
     <div class="relative">
       <img
@@ -170,10 +204,10 @@
 
       if (tariff > 0 && bomPercent > 0) {
         basePriceEl.classList.add("line-through", "text-gray-400");
-        basePriceEl.style.visibility = "visible";
+        basePriceEl.style.display = "block";
       } else {
         basePriceEl.classList.remove("line-through", "text-gray-400");
-        basePriceEl.style.visibility = "hidden";
+        basePriceEl.style.display = "none";
       }
 
       // Toggle reset button visibility
