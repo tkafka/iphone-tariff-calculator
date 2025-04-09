@@ -93,7 +93,7 @@
       <label for="tariff" class="text-lg font-medium">Import Tariff: <span id="tariffValue">0%</span></label>
       <a id="resetTariff" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
     </div>
-    <input type="range" id="tariff" min="0" max="400" value="0" class="w-full mb-6 tariff-slider" />
+    <input type="range" id="tariff" min="0" max="400" value="104" class="w-full mb-6 tariff-slider" />
 
     <!-- Row for less prominent sliders -->
     <div class="flex justify-between gap-4 mb-6">  <!-- Simplified Flex container -->
@@ -269,7 +269,7 @@
 
     // Default values (will be updated based on category)
     let defaultBom = productData[currentCategory].defaultBom;
-    const defaultTariff = 0;
+    const defaultTariff = 104;
     const defaultMargin = 39; // Keep margin consistent for now, could be category specific later
     const defaultOtherCostsPercent = 13;
 
