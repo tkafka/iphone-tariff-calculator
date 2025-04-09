@@ -42,6 +42,12 @@
     </div>
     <input type="range" id="margin" min="0" max="100" value="39" class="w-full mb-6" />
 
+    <div class="flex items-center justify-center mb-2">
+      <label for="otherCostsPercent" class="text-lg font-medium">Other Costs (% of Base Price): <span id="otherCostsPercentValue">13%</span></label>
+      <a id="resetOtherCosts" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
+    </div>
+    <input type="range" id="otherCostsPercent" min="0" max="50" value="13" class="w-full mb-6" />
+
     <div class="relative">
       <img
         id="phoneImage"
@@ -63,12 +69,14 @@
         <ul class="list-disc list-outside pl-5 space-y-1 mt-2">
           <li><strong>BOM Cost</strong>: Cost of components (as % of base price, estimated to 55 % for 16 Pro)</li>
           <li><strong>Tariff Rate</strong>: U.S. import tax</li>
-          <li><strong>Other Costs</strong>: Fixed at $100 (estimate)</li>
+          <li><strong>Other Costs</strong>: Calculated as % of the initial Base Price (adjustable, default 13%)</li>
           <li><strong>Intended Profit Margin</strong>: Adjustable (39% is current iPhone Margin)</li>
         </ul>
         <br/>
-        Example: If BOM = $485, Tariff = 50%, Other Costs = $100, Profit Margin = 40%,<br/>
-        Then Retail = ($485 × 1.5 + $100) × 1.4 = $1073<br/>
+        Example: If Base Price = $999, BOM % = 55%, Tariff = 25%, Other Costs % = 13%, Profit Margin = 39%,<br/>
+        Then BOM Cost = $999 × 0.55 = $549.45<br/>
+        Other Costs = $999 × 0.13 = $129.87<br/>
+        Retail = ($549.45 × (1 + 0.25) + $129.87) × (1 + 0.39) ≈ $1135.19, rounded up to $1199<br/>
       </div>
     </div>
   </div>
@@ -108,16 +116,20 @@
     const finalPriceEl = document.getElementById("finalPrice");
     const explanationEl = document.getElementById("explanation");
     const phoneImageEl = document.getElementById("phoneImage");
+    const otherCostsPercentInput = document.getElementById("otherCostsPercent");
+    const otherCostsPercentValue = document.getElementById("otherCostsPercentValue");
 
     // Get reset links
     const resetBomLink = document.getElementById("resetBom");
     const resetTariffLink = document.getElementById("resetTariff");
     const resetMarginLink = document.getElementById("resetMargin");
+    const resetOtherCostsLink = document.getElementById("resetOtherCosts");
 
     // Default values
     const defaultBom = 55;
     const defaultTariff = 0;
     const defaultMargin = 39;
+    const defaultOtherCostsPercent = 13;
 
     function roundUpTo99(amount) {
       return Math.ceil(amount / 100) * 100 - 1;
@@ -132,14 +144,16 @@
       const bomPercent = parseFloat(bomInput.value);
       const tariff = parseFloat(tariffInput.value);
       const marginRate = parseFloat(marginInput.value) / 100;
+      const otherCostsPercent = parseFloat(otherCostsPercentInput.value);
 
       bomValue.textContent = `${bomPercent}%`;
       tariffValue.textContent = `${tariff}%`;
       marginValue.textContent = `${marginInput.value}%`;
+      otherCostsPercentValue.textContent = `${otherCostsPercent}%`;
 
       const bomAmount = basePrice * (bomPercent / 100);
       const tariffCost = bomAmount * (tariff / 100);
-      const otherCosts = 100;
+      const otherCosts = basePrice * (otherCostsPercent / 100);
 
       const estimatedRetail = (bomAmount * (1 + tariff / 100) + otherCosts) * (1 + marginRate);
       const finalRounded = roundUpTo99(estimatedRetail);
@@ -152,7 +166,7 @@
       finalPriceEl.textContent = `$${finalRounded}`;
       basePriceEl.textContent = `$${basePrice}`;
 
-      explanationEl.innerHTML = `BOM = $${Math.round(bomAmount)}, Tariff = $${Math.round(tariffCost)}, Other Costs = $${Math.round(otherCosts)}, <br>Actual Margin = $${Math.round(actualMargin)} (${actualMarginPercent}%), Final Price = $${finalRounded}`;
+      explanationEl.innerHTML = `BOM = $${Math.round(bomAmount)}, Tariff = $${Math.round(tariffCost)}, Other Costs = $${Math.round(otherCosts)} (${otherCostsPercent}%), <br>Actual Margin = $${Math.round(actualMargin)} (${actualMarginPercent}%), Final Price = $${finalRounded}`;
 
       if (tariff > 0 && bomPercent > 0) {
         basePriceEl.classList.add("line-through", "text-gray-400");
@@ -166,12 +180,14 @@
       resetBomLink.classList.toggle("hidden", parseFloat(bomInput.value) === defaultBom);
       resetTariffLink.classList.toggle("hidden", parseFloat(tariffInput.value) === defaultTariff);
       resetMarginLink.classList.toggle("hidden", parseFloat(marginInput.value) === defaultMargin);
+      resetOtherCostsLink.classList.toggle("hidden", parseFloat(otherCostsPercentInput.value) === defaultOtherCostsPercent);
     }
 
     bomInput.addEventListener("input", updatePrices);
     tariffInput.addEventListener("input", updatePrices);
     marginInput.addEventListener("input", updatePrices);
     modelSelect.addEventListener("change", updatePrices);
+    otherCostsPercentInput.addEventListener("input", updatePrices);
 
     // Reset link event listeners
     resetBomLink.addEventListener("click", (e) => {
@@ -189,6 +205,12 @@
     resetMarginLink.addEventListener("click", (e) => {
       e.preventDefault();
       marginInput.value = defaultMargin;
+      updatePrices();
+    });
+
+    resetOtherCostsLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      otherCostsPercentInput.value = defaultOtherCostsPercent;
       updatePrices();
     });
 
