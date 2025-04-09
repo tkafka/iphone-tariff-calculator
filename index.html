@@ -3,25 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>iPhone Tariff Calculator</title>
+  <title>Apple Product Tariff Calculator</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     }
+    .category-link.active {
+        font-weight: bold;
+        color: #3b82f6; /* blue-500 */
+        text-decoration: underline;
+    }
+
+    /* Custom Slider Track Styles */
+    .tariff-slider::-webkit-slider-runnable-track {
+      height: 8px; /* Adjust thickness */
+      /* background-color: #d1d5db; */ /* Removed - Handled by JS */
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+    .tariff-slider::-moz-range-track {
+      height: 8px; /* Adjust thickness */
+      /* background-color: #d1d5db; */ /* Removed - Handled by JS */
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+
+    .secondary-slider::-webkit-slider-runnable-track {
+      height: 4px; /* Thinner track */
+      /* background-color: #e5e7eb; */ /* Removed - Handled by JS */
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+     .secondary-slider::-moz-range-track {
+      height: 4px; /* Thinner track */
+      /* background-color: #e5e7eb; */ /* Removed - Handled by JS */
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+
+     /* Optional: Adjust thumb vertical alignment if needed due to track height change */
+    .tariff-slider::-webkit-slider-thumb {
+      margin-top: -3px; /* Fine-tune vertical centering */
+    }
+     .secondary-slider::-webkit-slider-thumb {
+       margin-top: -6px; /* Fine-tune vertical centering */
+    }
+     /* Firefox thumb alignment is usually okay */
+
   </style>
 </head>
 <body class="bg-white text-gray-900 p-6">
   <div class="max-w-md mx-auto text-center">
-    <h1 class="text-2xl font-bold mb-4">iPhone Tariff Calculator</h1>
+    <h1 class="text-2xl font-bold mb-4">Apple Product Tariff Calculator</h1>
 
-    <label for="model" class="block text-lg font-medium mb-2">Choose your iPhone model:</label>
-    <select id="model" class="w-full mb-6 border border-gray-300 rounded p-2">
-      <option value="16e">iPhone 16e - $599</option>
-      <option value="16" selected>iPhone 16 - $799</option>
-      <option value="16plus">iPhone 16 Plus - $899</option>
-      <option value="16pro">iPhone 16 Pro - $999</option>
-      <option value="16promax">iPhone 16 Pro Max - $1199</option>
+    <!-- Category Switcher -->
+    <div id="categorySwitcher" class="mb-4 text-lg">
+      <a href="#" data-category="iPhone" class="category-link active px-2 py-1 text-blue-600 hover:text-blue-800">iPhone</a> |
+      <a href="#" data-category="Watch" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">Watch</a> |
+      <a href="#" data-category="Mac" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">Mac</a>
+    </div>
+
+    <!-- <label for="product" class="block text-lg font-medium mb-2">Choose your product:</label> -->
+    <select id="product" class="w-full mb-6 border border-gray-300 rounded p-2">
+      <!-- Options will be populated by JS -->
     </select>
 
     <!-- Original BOM, Margin, Other Costs sliders commented out for reference -->
@@ -48,7 +93,7 @@
       <label for="tariff" class="text-lg font-medium">Import Tariff: <span id="tariffValue">0%</span></label>
       <a id="resetTariff" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
     </div>
-    <input type="range" id="tariff" min="0" max="400" value="0" class="w-full mb-6" />
+    <input type="range" id="tariff" min="0" max="400" value="0" class="w-full mb-6 tariff-slider" />
 
     <!-- Row for less prominent sliders -->
     <div class="flex justify-between gap-4 mb-6">  <!-- Simplified Flex container -->
@@ -59,7 +104,7 @@
           <label for="bom" class="block text-sm font-normal text-gray-700">BOM: <span id="bomValue">55%</span></label>
           <a id="resetBom" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">&times;</a>
         </div>
-        <input type="range" id="bom" min="0" max="100" value="55" class="w-full accent-gray-500" />
+        <input type="range" id="bom" min="0" max="100" value="55" class="w-full accent-gray-500 secondary-slider" />
       </div>
 
       <!-- Other Costs Slider -->
@@ -68,7 +113,7 @@
             <label for="otherCostsPercent" class="block text-sm font-normal text-gray-700">Other Costs: <span id="otherCostsPercentValue">13%</span></label>
             <a id="resetOtherCosts" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">&times;</a>
          </div>
-         <input type="range" id="otherCostsPercent" min="0" max="50" value="13" class="w-full accent-gray-500" />
+         <input type="range" id="otherCostsPercent" min="0" max="50" value="13" class="w-full accent-gray-500 secondary-slider" />
       </div>
 
       <!-- Margin Slider -->
@@ -77,7 +122,7 @@
             <label for="margin" class="block text-sm font-normal text-gray-700">Profit Margin: <span id="marginValue">39%</span></label>
             <a id="resetMargin" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">&times;</a>
          </div>
-         <input type="range" id="margin" min="0" max="100" value="39" class="w-full accent-gray-500" />
+         <input type="range" id="margin" min="0" max="100" value="39" class="w-full accent-gray-500 secondary-slider" />
       </div>
 
     </div>
@@ -86,7 +131,7 @@
       <img
         id="phoneImage"
         src="https://www.apple.com/newsroom/images/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/tile/geo/Apple-iPhone-16-lineup-geo-240909-lp.jpg.og.jpg?202503102014"
-        alt="iPhone Image"
+        alt="Product image"
         class="mx-auto mb-4 rounded-2xl"
       />
 
@@ -101,13 +146,13 @@
         Retail Price = (BOM Cost × (1 + Tariff Rate) + Other Costs) × (1 + Profit Margin)<br/><br/>
         Where:<br/>
         <ul class="list-disc list-outside pl-5 space-y-1 mt-2">
-          <li><strong>BOM Cost</strong>: Cost of components (as % of base price, estimated to 55 % for 16 Pro)</li>
+          <li><strong>BOM Cost</strong>: Cost of components (as % of base price, varies by product, e.g., ~55% for iPhone 16 Pro)</li>
           <li><strong>Tariff Rate</strong>: U.S. import tax</li>
           <li><strong>Other Costs</strong>: Calculated as % of the initial Base Price (adjustable, default 13%)</li>
-          <li><strong>Intended Profit Margin</strong>: Adjustable (39% is current iPhone Margin)</li>
+          <li><strong>Intended Profit Margin</strong>: Adjustable (e.g., ~39% is recent iPhone Margin)</li>
         </ul>
         <br/>
-        Example: If Base Price = $999, BOM % = 55%, Tariff = 25%, Other Costs % = 13%, Profit Margin = 39%,<br/>
+        Example (iPhone 16 Pro): If Base Price = $999, BOM % = 55%, Tariff = 25%, Other Costs % = 13%, Profit Margin = 39%,<br/>
         Then BOM Cost = $999 × 0.55 = $549.45<br/>
         Other Costs = $999 × 0.13 = $129.87<br/>
         Retail = ($549.45 × (1 + 0.25) + $129.87) × (1 + 0.39) ≈ $1135.19, rounded up to $1199<br/>
@@ -116,30 +161,57 @@
   </div>
 
   <script>
-    const phones = {
-      "16e": {
-        price: 599,
-        image: "https://www.apple.com/newsroom/images/2025/02/apple-debuts-iphone-16e-a-powerful-new-member-of-the-iphone-16-family/geo/article/Apple-iPhone-16e-hero-GEO-250219_inline.jpg.large.jpg"
+    const productData = {
+      "iPhone": {
+        defaultBom: 55,
+        products: {
+          "16e": {
+            name: "iPhone 16e",
+            price: 599,
+            image: "https://www.apple.com/newsroom/images/2025/02/apple-debuts-iphone-16e-a-powerful-new-member-of-the-iphone-16-family/geo/article/Apple-iPhone-16e-hero-GEO-250219_inline.jpg.large.jpg"
+          },
+          "16": {
+            name: "iPhone 16",
+            price: 799,
+            image: "https://www.apple.com/newsroom/images/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/tile/geo/Apple-iPhone-16-lineup-geo-240909-lp.jpg.og.jpg?202503102014"
+          },
+          "16plus": {
+            name: "iPhone 16 Plus",
+            price: 899,
+            image: "https://www.apple.com/newsroom/images/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/tile/geo/Apple-iPhone-16-lineup-geo-240909-lp.jpg.og.jpg?202503102014"
+          },
+          "16pro": {
+            name: "iPhone 16 Pro",
+            price: 999,
+            image: "https://www.apple.com/newsroom/images/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/article/Apple-iPhone-16-Pro-finish-lineup-240909_big.jpg.large.jpg"
+          },
+          "16promax": {
+            name: "iPhone 16 Pro Max",
+            price: 1199,
+            image: "https://www.apple.com/newsroom/images/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/article/Apple-iPhone-16-Pro-finish-lineup-240909_big.jpg.large.jpg"
+          }
+        }
       },
-      "16": {
-        price: 799,
-        image: "https://www.apple.com/newsroom/images/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/tile/geo/Apple-iPhone-16-lineup-geo-240909-lp.jpg.og.jpg?202503102014"
+      "Watch": {
+        defaultBom: 45, // Placeholder
+        products: {
+            // Add Watch models here later
+            "series10": { name: "Apple Watch Series 10", price: 399, image: "placeholder_watch.jpg" } // Example
+        }
       },
-      "16plus": {
-        price: 899,
-        image: "https://www.apple.com/newsroom/images/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/tile/geo/Apple-iPhone-16-lineup-geo-240909-lp.jpg.og.jpg?202503102014"
-      },
-      "16pro": {
-        price: 999,
-        image: "https://www.apple.com/newsroom/images/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/article/Apple-iPhone-16-Pro-finish-lineup-240909_big.jpg.large.jpg"
-      },
-      "16promax": {
-        price: 1199,
-        image: "https://www.apple.com/newsroom/images/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/article/Apple-iPhone-16-Pro-finish-lineup-240909_big.jpg.large.jpg"
+      "Mac": {
+        defaultBom: 65, // Placeholder
+        products: {
+            // Add Mac models here later
+            "mba_m3": { name: "MacBook Air M3", price: 1099, image: "placeholder_mac.jpg" } // Example
+        }
       }
     };
 
-    const modelSelect = document.getElementById("model");
+    let currentCategory = "iPhone"; // Default category
+
+    const categorySwitcher = document.getElementById("categorySwitcher");
+    const productSelect = document.getElementById("product");
     const bomInput = document.getElementById("bom");
     const bomValue = document.getElementById("bomValue");
     const tariffInput = document.getElementById("tariff");
@@ -159,22 +231,41 @@
     const resetMarginLink = document.getElementById("resetMargin");
     const resetOtherCostsLink = document.getElementById("resetOtherCosts");
 
-    // Default values
-    const defaultBom = 55;
+    // Default values (will be updated based on category)
+    let defaultBom = productData[currentCategory].defaultBom;
     const defaultTariff = 0;
-    const defaultMargin = 39;
+    const defaultMargin = 39; // Keep margin consistent for now, could be category specific later
     const defaultOtherCostsPercent = 13;
 
     function roundUpTo99(amount) {
       return Math.ceil(amount / 100) * 100 - 1;
     }
 
-    function updatePrices() {
-      const selectedKey = modelSelect.value;
-      const phone = phones[selectedKey];
-      const basePrice = phone.price;
-      phoneImageEl.src = phone.image;
+    function populateProductSelect(category) {
+        productSelect.innerHTML = ''; // Clear existing options
+        const categoryProducts = productData[category].products;
+        Object.keys(categoryProducts).forEach((key, index) => {
+            const product = categoryProducts[key];
+            const option = document.createElement('option');
+            option.value = key;
+            option.textContent = `${product.name} - $${product.price}`;
+            if (index === 0) { // Select the first product by default
+                 option.selected = true;
+            }
+            productSelect.appendChild(option);
+        });
+    }
 
+    function updatePrices() {
+      const selectedKey = productSelect.value;
+      // Ensure we have a valid key, otherwise might happen during category switch
+      if (!selectedKey || !productData[currentCategory].products[selectedKey]) return;
+
+      const product = productData[currentCategory].products[selectedKey];
+      const basePrice = product.price;
+      phoneImageEl.src = product.image; // Update image source
+
+      // --- Update slider text values first ---
       const bomPercent = parseFloat(bomInput.value);
       const tariff = parseFloat(tariffInput.value);
       const marginRate = parseFloat(marginInput.value) / 100;
@@ -210,23 +301,74 @@
         basePriceEl.style.display = "none";
       }
 
-      // Toggle reset button visibility
+      // --- Update slider fill colors ---
+      updateSliderFill(tariffInput);
+      updateSliderFill(bomInput);
+      updateSliderFill(otherCostsPercentInput);
+      updateSliderFill(marginInput);
+
+      // Toggle reset button visibility - Use the current category's default BOM
       resetBomLink.classList.toggle("hidden", parseFloat(bomInput.value) === defaultBom);
       resetTariffLink.classList.toggle("hidden", parseFloat(tariffInput.value) === defaultTariff);
       resetMarginLink.classList.toggle("hidden", parseFloat(marginInput.value) === defaultMargin);
       resetOtherCostsLink.classList.toggle("hidden", parseFloat(otherCostsPercentInput.value) === defaultOtherCostsPercent);
     }
 
+    // --- Category Switching Logic ---
+    function switchCategory(newCategory) {
+        if (newCategory === currentCategory) return; // No change
+
+        currentCategory = newCategory;
+        defaultBom = productData[currentCategory].defaultBom; // Update default BOM for the category
+
+        // Update active link style
+        document.querySelectorAll('.category-link').forEach(link => {
+            link.classList.toggle('active', link.dataset.category === currentCategory);
+        });
+
+        populateProductSelect(currentCategory);
+        bomInput.value = defaultBom; // Reset BOM slider to new category default
+        updateSliderFill(bomInput); // Update fill for reset BOM
+        updatePrices(); // Recalculate with new product list and BOM default
+    }
+
+    categorySwitcher.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (e.target.classList.contains('category-link')) {
+            switchCategory(e.target.dataset.category);
+        }
+    });
+    // --- End Category Switching Logic ---
+
+    // --- Function to update slider track fill ---
+    function updateSliderFill(slider) {
+        const min = slider.min ? parseFloat(slider.min) : 0;
+        const max = slider.max ? parseFloat(slider.max) : 100;
+        const value = parseFloat(slider.value);
+        const percentage = ((value - min) / (max - min)) * 100;
+
+        let fillColor = '#6b7280'; // Default: gray-500
+        const trackColor = '#d1d5db'; // gray-300
+
+        if (slider.id === 'tariff') {
+            fillColor = '#3b82f6'; // blue-500 for tariff
+        }
+
+        slider.style.background = `linear-gradient(to right, ${fillColor} ${percentage}%, ${trackColor} ${percentage}%)`;
+    }
+    // --- End Function to update slider track fill ---
+
+    // Event listeners for inputs
     bomInput.addEventListener("input", updatePrices);
     tariffInput.addEventListener("input", updatePrices);
     marginInput.addEventListener("input", updatePrices);
-    modelSelect.addEventListener("change", updatePrices);
+    productSelect.addEventListener("change", updatePrices);
     otherCostsPercentInput.addEventListener("input", updatePrices);
 
     // Reset link event listeners
     resetBomLink.addEventListener("click", (e) => {
       e.preventDefault();
-      bomInput.value = defaultBom;
+      bomInput.value = defaultBom; // Reset to current category's default
       updatePrices();
     });
 
@@ -248,6 +390,11 @@
       updatePrices();
     });
 
+    // Initial setup
+    populateProductSelect(currentCategory); // Populate initial product dropdown
+    bomInput.value = defaultBom; // Set initial BOM slider value based on category default
+    // Apply initial fill to all sliders
+    [tariffInput, bomInput, otherCostsPercentInput, marginInput].forEach(updateSliderFill);
     updatePrices(); // Initial calculation
   </script>
 </body>
