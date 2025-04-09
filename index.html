@@ -61,7 +61,7 @@
     <div id="categorySwitcher" class="mb-4 text-lg">
       <a href="#" data-category="iPhone" class="category-link active px-2 py-1 text-blue-600 hover:text-blue-800">iPhone</a> |
       <a href="#" data-category="Watch" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">Watch</a> |
-      <a href="#" data-category="Mac" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">Mac</a>
+      <a href="#" data-category="MacBook" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">MacBook</a>
     </div>
 
     <!-- <label for="product" class="block text-lg font-medium mb-2">Choose your product:</label> -->
@@ -193,17 +193,53 @@
         }
       },
       "Watch": {
-        defaultBom: 45, // Placeholder
+        defaultBom: 45, // Placeholder BOM for Watch
         products: {
-            // Add Watch models here later
-            "series10": { name: "Apple Watch Series 10", price: 399, image: "placeholder_watch.jpg" } // Example
+            "se_40": { 
+                name: "Apple Watch SE (40mm, GPS)", 
+                price: 249, 
+                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-se-gallery1-202409?wid=2000&hei=1536&fmt=p-jpg&qlt=95&.v=1725400192695" // Placeholder, update if needed
+            },
+            "series10_42": { 
+                name: "Apple Watch Series 10 (42mm, GPS)", 
+                price: 399, 
+                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-s10-gallery1-202409?wid=2000&hei=1536&fmt=p-jpg&qlt=95&.v=1725400456083" // Placeholder, update if needed
+            },
+            "ultra2_49": { 
+                name: "Apple Watch Ultra 2 (49mm, GPS+Cellular)", 
+                price: 799, 
+                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-ultra2-gallery1-202309?wid=2000&hei=1536&fmt=p-jpg&qlt=95&.v=1692738085902" // Placeholder, update if needed
+            }
         }
       },
-      "Mac": {
-        defaultBom: 65, // Placeholder
+      "MacBook": {
+        defaultBom: 65, // Placeholder BOM for MacBook
         products: {
-            // Add Mac models here later
-            "mba_m3": { name: "MacBook Air M3", price: 1099, image: "placeholder_mac.jpg" } // Example
+            "mba_13_m4": { 
+                name: "MacBook Air 13\" (M4, 16GB/256GB)", 
+                price: 999, 
+                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba13-m4-silver-gallery1-202410?wid=2000&hei=1536&fmt=p-jpg&qlt=95&.v=1727126785808" // Placeholder
+            },
+            "mba_15_m4": { 
+                name: "MacBook Air 15\" (M4, 16GB/256GB)", 
+                price: 1199, 
+                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba15-m4-silver-gallery1-202410?wid=2000&hei=1536&fmt=p-jpg&qlt=95&.v=1727126842169" // Placeholder
+            },
+            "mbp_14_m4": { 
+                name: "MacBook Pro 14\" (M4, 16GB/512GB)", 
+                price: 1599, 
+                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-m4-silver-gallery1-202410?wid=2000&hei=1536&fmt=p-jpg&qlt=95&.v=1727126976716" // Placeholder
+            },
+            "mbp_16_m4pro": { 
+                name: "MacBook Pro 16\" (M4 Pro, 24GB/512GB)", 
+                price: 2499, 
+                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16-m4pro-silver-gallery1-202410?wid=2000&hei=1536&fmt=p-jpg&qlt=95&.v=1727127083464" // Placeholder
+            },
+             "mbp_16_m4max": { 
+                name: "MacBook Pro 16\" (M4 Max, 36GB/1TB)", 
+                price: 3499, 
+                image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16-m4max-silver-gallery1-202410?wid=2000&hei=1536&fmt=p-jpg&qlt=95&.v=1727127162086" // Placeholder
+            }
         }
       }
     };
