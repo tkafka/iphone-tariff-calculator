@@ -61,7 +61,8 @@
     <div id="categorySwitcher" class="mb-4 text-lg">
       <a href="#" data-category="iPhone" class="category-link active px-2 py-1 text-blue-600 hover:text-blue-800">iPhone</a> |
       <a href="#" data-category="Watch" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">Watch</a> |
-      <a href="#" data-category="MacBook" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">MacBook</a>
+      <a href="#" data-category="MacBook" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">MacBook</a> |
+      <a href="#" data-category="Mac" class="category-link px-2 py-1 text-blue-600 hover:text-blue-800">Mac</a>
     </div>
 
     <!-- <label for="product" class="block text-lg font-medium mb-2">Choose your product:</label> -->
@@ -240,6 +241,46 @@
                 price: 3499, 
                 image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16-m4max-silver-gallery1-202410?wid=2000&hei=1536&fmt=p-jpg&qlt=95&.v=1727127162086" // Placeholder
             }
+        }
+      },
+      "Mac": { // New Mac category for desktops/studio/pro
+        defaultBom: 70, // Placeholder BOM for desktop Macs
+        products: {
+          "macmini_m4": {
+            name: "Mac mini (M4)",
+            price: 599,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mac-mini-m4-hero-202410?wid=890&hei=810&fmt=jpeg&qlt=90&.v=1729702054470" // Placeholder
+          },
+          "macmini_m4pro": {
+            name: "Mac mini (M4 Pro)",
+            price: 1399,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mac-mini-m4-hero-202410?wid=890&hei=810&fmt=jpeg&qlt=90&.v=1729702054470" // Placeholder
+          },
+          "imac_24_8c": {
+            name: "iMac 24\" (8-core GPU)",
+            price: 1299,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/imac-24-blue-selection-hero-202310?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1697303032033" // Placeholder
+          },
+          "imac_24_10c": {
+            name: "iMac 24\" (10-core GPU)",
+            price: 1499,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/imac-24-blue-selection-hero-202310?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1697303032033" // Placeholder
+          },
+          "macstudio_m4max": {
+            name: "Mac Studio (M4 Max)",
+            price: 1999,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mac-studio-m4-max-hero-202410?wid=890&hei=810&fmt=jpeg&qlt=90&.v=1729702081747" // Placeholder
+          },
+          "macstudio_m3ultra": {
+            name: "Mac Studio (M3 Ultra)",
+            price: 3999,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mac-studio-hero-202306?wid=890&hei=810&fmt=jpeg&qlt=90&.v=1684872873393" // Placeholder
+          },
+          "macpro_m2ultra": {
+            name: "Mac Pro (M2 Ultra)",
+            price: 6999,
+            image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mac-pro-tower-hero-202306?wid=890&hei=810&fmt=jpeg&qlt=90&.v=1684872879944" // Placeholder
+          }
         }
       }
     };
