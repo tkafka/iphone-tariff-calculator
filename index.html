@@ -71,6 +71,10 @@
     }
      /* Firefox thumb alignment is usually okay */
 
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
   </style>
 </head>
 <body class="bg-white text-gray-900 p-6 pb-28">
@@ -113,7 +117,7 @@
     <!-- Tariff Slider Container (Prominent) -->
     <div class="bg-gray-50 p-4 rounded-lg mb-6">
       <div class="flex items-center justify-center mb-2">
-        <label for="tariff" class="text-lg font-medium">Import Tariff: <span id="tariffValue">0%</span></label>
+        <label for="tariff" class="text-lg font-medium">Import Tariff: <span id="tariffValue" class="tabular-nums">0%</span></label>
         <a id="resetTariff" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
       </div>
       <input type="range" id="tariff" min="0" max="400" value="0" class="w-full tariff-slider" /> <!-- Removed mb-4 -->
@@ -132,18 +136,18 @@
         <!-- New Price Display Container -->
         <div class="mt-2 text-center text-xl"> <!-- Centered container -->
             <!-- Spans will display inline-block by default -->
-           <span id="basePrice" class="text-gray-500 mr-2 hidden">$799</span> <!-- Base price, start hidden -->
-           <span id="finalPrice" class="font-semibold">$799</span> <!-- Final price -->
-           <span id="priceIncrease" class="ml-2 text-lg font-medium text-red-600 hidden"></span> <!-- Percentage increase, start hidden -->
+           <span id="basePrice" class="text-gray-500 mr-2 hidden tabular-nums">$799</span> <!-- Base price, start hidden -->
+           <span id="finalPrice" class="font-semibold tabular-nums">$799</span> <!-- Final price -->
+           <span id="priceIncrease" class="ml-2 text-lg font-medium text-red-600 hidden tabular-nums"></span> <!-- Percentage increase, start hidden -->
         </div>
         <!-- Price Summary Sentence -->
-        <div id="priceSummary" class="text text-gray-600 mt-1 text-center hidden"></div>
+        <div id="priceSummary" class="text text-gray-600 mt-1 text-center tabular-nums hidden"></div>
       </div> <!-- End of Wrapper -->
 
       <hr class="my-4 border-gray-200">
 
       <div class="text-sm text-gray-500 tracking-wider uppercase mb-2">The math, Donnie</div>
-      <div id="explanation" class="text-sm text-gray-700 mt-4 mb-8"></div> <!-- Increased bottom margin -->
+      <div id="explanation" class="text-sm text-gray-700 mt-4 mb-8 tabular-nums"></div> <!-- Increased bottom margin -->
 
       <!-- Separator and Subtitle for Secondary Sliders -->
       <hr class="my-4 border-gray-200">
@@ -156,7 +160,7 @@
          <div class="w-1/3 text-left">
            <label for="bom" class="block text-xs font-normal text-gray-600 mb-1">BOM:</label> <!-- Smaller label -->
            <div class="flex justify-between items-center mb-1">
-               <span id="bomValue" class="text-sm font-normal text-gray-700">55%</span>
+               <span id="bomValue" class="text-sm font-normal text-gray-700 tabular-nums">55%</span>
                <a id="resetBom" class="text-xs text-blue-500 hover:text-blue-700 cursor-pointer hidden">&times;</a>
            </div>
            <input type="range" id="bom" min="0" max="100" value="55" class="w-full accent-gray-500 secondary-slider" />
@@ -166,7 +170,7 @@
           <div class="w-1/3 text-left">
             <label for="otherCostsPercent" class="block text-xs font-normal text-gray-600 mb-1">Other Costs:</label> <!-- Smaller label -->
             <div class="flex justify-between items-center mb-1">
-                <span id="otherCostsPercentValue" class="text-sm font-normal text-gray-700">13%</span>
+                <span id="otherCostsPercentValue" class="text-sm font-normal text-gray-700 tabular-nums">13%</span>
                 <a id="resetOtherCosts" class="text-xs text-blue-500 hover:text-blue-700 cursor-pointer hidden">&times;</a>
             </div>
             <input type="range" id="otherCostsPercent" min="0" max="50" value="13" class="w-full accent-gray-500 secondary-slider" />
@@ -176,7 +180,7 @@
          <div class="w-1/3 text-left">
             <label for="margin" class="block text-xs font-normal text-gray-600 mb-1">Profit Margin:</label> <!-- Smaller label -->
             <div class="flex justify-between items-center mb-1">
-                <span id="marginValue" class="text-sm font-normal text-gray-700">39%</span>
+                <span id="marginValue" class="text-sm font-normal text-gray-700 tabular-nums">39%</span>
                 <a id="resetMargin" class="text-xs text-blue-500 hover:text-blue-700 cursor-pointer hidden">&times;</a>
             </div>
             <input type="range" id="margin" min="0" max="100" value="39" class="w-full accent-gray-500 secondary-slider" />
@@ -190,9 +194,9 @@
         Where Tariff on BOM = (Base Price × BOM %) × Tariff Rate<br/><br/>
         Where:<br/>
         <ul class="list-disc list-outside pl-5 space-y-1 mt-2">
-          <li id="bomDefaultsDescription"><strong>BOM %</strong>: Cost of components as % of Base Price (Default: 51% iPhone, 46% Watch, 48% iPad, 56% MacBook, 57% Mac)</li>
-          <li id="otherCostsDefaultsDescription"><strong>Other Costs %</strong>: Other costs as % of Base Price (Default: 12% iPhone, 13% Watch, 13% iPad, 11% MacBook, 11% Mac)</li>
-          <li id="marginDefaultsDescription"><strong>Margin %</strong>: Profit margin as % of Base Price (Default: 37% iPhone, 41% Watch, 39% iPad, 33% MacBook, 32% Mac)</li>
+          <li id="bomDefaultsDescription" class="tabular-nums"><strong>BOM %</strong>: Cost of components as % of Base Price (Default: 51% iPhone, 46% Watch, 48% iPad, 56% MacBook, 57% Mac)</li>
+          <li id="otherCostsDefaultsDescription" class="tabular-nums"><strong>Other Costs %</strong>: Other costs as % of Base Price (Default: 12% iPhone, 13% Watch, 13% iPad, 11% MacBook, 11% Mac)</li>
+          <li id="marginDefaultsDescription" class="tabular-nums"><strong>Margin %</strong>: Profit margin as % of Base Price (Default: 37% iPhone, 41% Watch, 39% iPad, 33% MacBook, 32% Mac)</li>
           <li><strong>Tariff Rate</strong>: We assume U.S. import tax applies *only* to the BOM Cost portion.</li>
         </ul>
         
@@ -467,8 +471,8 @@
 
       // Explanation parts
       const totalNonTariff = bomAmount + otherCostsAmount + marginAmount;
-      const explanationText = `Base = $${basePrice} (BOM ${bomPercent}% + Other ${otherCostsPercent}% + Margin ${marginPercent}%)<br>` +
-                              `Tariff on BOM ($${bomAmount.toFixed(2)} @ ${tariffPercent}%) = $${tariffCost.toFixed(2)}<br>` +
+      const explanationText = `Base = $${basePrice} (BOM ${bomPercent}% + Other ${otherCostsPercent}% + Margin ${marginPercent}%)<br/>` +
+                              `Tariff on BOM ($${bomAmount.toFixed(2)} @ ${tariffPercent}%) = $${tariffCost.toFixed(2)}<br/>` +
                               `Total is $${estimatedRetail.toFixed(2)}, rounded to $${finalRounded}`;
 
       finalPriceEl.textContent = `$${finalRounded}`;
