@@ -146,10 +146,13 @@
 
       const actualMargin = finalRounded - bomAmount - tariffCost - otherCosts;
 
+      // Calculate actual margin percentage
+      const actualMarginPercent = finalRounded > 0 ? Math.round((actualMargin / finalRounded) * 100) : 0;
+
       finalPriceEl.textContent = `$${finalRounded}`;
       basePriceEl.textContent = `$${basePrice}`;
 
-      explanationEl.innerHTML = `BOM = $${Math.round(bomAmount)}, Tariff = $${Math.round(tariffCost)}, Other Costs = $${Math.round(otherCosts)}, <br>Actual Margin = $${Math.round(actualMargin)}, Final Price = $${finalRounded}`;
+      explanationEl.innerHTML = `BOM = $${Math.round(bomAmount)}, Tariff = $${Math.round(tariffCost)}, Other Costs = $${Math.round(otherCosts)}, <br>Actual Margin = $${Math.round(actualMargin)} (${actualMarginPercent}%), Final Price = $${finalRounded}`;
 
       if (tariff > 0 && bomPercent > 0) {
         basePriceEl.classList.add("line-through", "text-gray-400");
