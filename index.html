@@ -3,25 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>iPhone 16 Tariff Calculator</title>
+  <title>iPhone Tariff Calculator</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     }
+    #phoneImage {
+      border-radius: 2em;
+    }
   </style>
 </head>
 <body class="bg-white text-gray-900 p-6">
   <div class="max-w-md mx-auto text-center">
-    <h1 class="text-2xl font-bold mb-4">iPhone 16 Tariff Calculator</h1>
+    <h1 class="text-2xl font-bold mb-4">iPhone Tariff Calculator</h1>
+
+    <label for="model" class="block text-lg font-medium mb-2">Choose your iPhone model:</label>
+    <select id="model" class="w-full mb-6 border border-gray-300 rounded p-2">
+      <option value="16e">iPhone 16e - $599</option>
+      <option value="16" selected>iPhone 16 - $799</option>
+      <option value="16plus">iPhone 16 Plus - $899</option>
+      <option value="16pro">iPhone 16 Pro - $999</option>
+      <option value="16promax">iPhone 16 Pro Max - $1199</option>
+    </select>
 
     <label for="tariff" class="block text-lg font-medium mb-2">Import tax: <span id="tariffValue">0%</span></label>
     <input type="range" id="tariff" min="0" max="400" value="0" class="w-full mb-6" />
 
     <div class="relative">
       <img
+        id="phoneImage"
         src="https://www.apple.com/newsroom/images/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/tile/geo/Apple-iPhone-16-lineup-geo-240909-lp.jpg.og.jpg?202503102014"
-        alt="iPhone 16"
+        alt="iPhone Image"
         class="mx-auto mb-4"
       />
 
@@ -34,23 +47,54 @@
   </div>
 
   <script>
-    const basePrice = 799;
+    const phones = {
+      "16e": {
+        price: 599,
+        image: "https://www.apple.com/newsroom/images/2025/02/apple-debuts-iphone-16e-a-powerful-new-member-of-the-iphone-16-family/geo/article/Apple-iPhone-16e-hero-GEO-250219_inline.jpg.large.jpg"
+      },
+      "16": {
+        price: 799,
+        image: "https://www.apple.com/newsroom/images/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/tile/geo/Apple-iPhone-16-lineup-geo-240909-lp.jpg.og.jpg?202503102014"
+      },
+      "16plus": {
+        price: 899,
+        image: "https://www.apple.com/newsroom/images/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/tile/geo/Apple-iPhone-16-lineup-geo-240909-lp.jpg.og.jpg?202503102014"
+      },
+      "16pro": {
+        price: 999,
+        image: "https://www.apple.com/newsroom/images/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/article/Apple-iPhone-16-Pro-finish-lineup-240909_big.jpg.large.jpg"
+      },
+      "16promax": {
+        price: 1199,
+        image: "https://www.apple.com/newsroom/images/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/article/Apple-iPhone-16-Pro-finish-lineup-240909_big.jpg.large.jpg"
+      }
+    };
+
+    let basePrice = phones["16"].price;
+    const modelSelect = document.getElementById("model");
     const tariffInput = document.getElementById("tariff");
     const tariffValue = document.getElementById("tariffValue");
     const basePriceEl = document.getElementById("basePrice");
     const finalPriceEl = document.getElementById("finalPrice");
+    const phoneImageEl = document.getElementById("phoneImage");
 
     function roundUpTo99(amount) {
       return Math.ceil(amount / 100) * 100 - 1;
     }
 
     function updatePrices() {
+      const selectedKey = modelSelect.value;
+      const phone = phones[selectedKey];
+      basePrice = phone.price;
+      phoneImageEl.src = phone.image;
+
       const tariff = parseFloat(tariffInput.value);
       tariffValue.textContent = `${tariff}%`;
 
       const taxedPrice = basePrice * (1 + tariff / 100);
       const finalRounded = roundUpTo99(taxedPrice);
       finalPriceEl.textContent = `$${finalRounded}`;
+      basePriceEl.textContent = `$${basePrice}`;
 
       if (tariff > 0) {
         basePriceEl.classList.add("line-through", "text-gray-400");
@@ -62,6 +106,7 @@
     }
 
     tariffInput.addEventListener("input", updatePrices);
+    modelSelect.addEventListener("change", updatePrices);
     updatePrices();
   </script>
 </body>
