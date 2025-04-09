@@ -89,44 +89,49 @@
     <input type="range" id="otherCostsPercent" min="0" max="50" value="13" class="w-full mb-6" />
     -->
 
-    <!-- Tariff Slider (Prominent) -->
-    <div class="flex items-center justify-center mb-2">
-      <label for="tariff" class="text-lg font-medium">Import Tariff: <span id="tariffValue">0%</span></label>
-      <a id="resetTariff" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
-    </div>
-    <input type="range" id="tariff" min="0" max="400" value="104" class="w-full mb-6 tariff-slider" />
+    <!-- Slider Container -->
+    <div class="bg-gray-50 p-4 rounded-lg mb-6">
 
-    <!-- Row for less prominent sliders -->
-    <div class="flex justify-between gap-4 mb-6">  <!-- Simplified Flex container -->
+      <!-- Tariff Slider (Prominent) -->
+      <div class="flex items-center justify-center mb-2">
+        <label for="tariff" class="text-lg font-medium">Import Tariff: <span id="tariffValue">0%</span></label>
+        <a id="resetTariff" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">reset</a>
+      </div>
+      <input type="range" id="tariff" min="0" max="400" value="104" class="w-full tariff-slider mb-4" /> <!-- Adjusted margin -->
 
-      <!-- BOM Slider -->
-      <div class="w-1/3"> <!-- Fixed width -->
-        <div class="flex justify-between items-baseline mb-1">
-          <label for="bom" class="block text-sm font-normal text-gray-700">BOM: <span id="bomValue">55%</span></label>
-          <a id="resetBom" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">&times;</a>
+      <!-- Row for less prominent sliders -->
+      <div class="flex justify-between gap-4">  <!-- Removed mb-6 -->
+
+        <!-- BOM Slider -->
+        <div class="w-1/3"> <!-- Fixed width -->
+          <div class="flex justify-between items-baseline mb-1">
+            <label for="bom" class="block text-sm font-normal text-gray-700">BOM: <span id="bomValue">55%</span></label>
+            <a id="resetBom" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">&times;</a>
+          </div>
+          <input type="range" id="bom" min="0" max="100" value="55" class="w-full accent-gray-500 secondary-slider" />
         </div>
-        <input type="range" id="bom" min="0" max="100" value="55" class="w-full accent-gray-500 secondary-slider" />
+
+        <!-- Other Costs Slider -->
+         <div class="w-1/3"> <!-- Fixed width -->
+           <div class="flex justify-between items-baseline mb-1">
+              <label for="otherCostsPercent" class="block text-sm font-normal text-gray-700">Other Costs: <span id="otherCostsPercentValue">13%</span></label>
+              <a id="resetOtherCosts" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">&times;</a>
+           </div>
+           <input type="range" id="otherCostsPercent" min="0" max="50" value="13" class="w-full accent-gray-500 secondary-slider" />
+        </div>
+
+        <!-- Margin Slider -->
+        <div class="w-1/3"> <!-- Fixed width -->
+           <div class="flex justify-between items-baseline mb-1">
+              <label for="margin" class="block text-sm font-normal text-gray-700">Profit Margin: <span id="marginValue">39%</span></label>
+              <a id="resetMargin" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">&times;</a>
+           </div>
+           <input type="range" id="margin" min="0" max="100" value="39" class="w-full accent-gray-500 secondary-slider" />
+        </div>
+
       </div>
 
-      <!-- Other Costs Slider -->
-       <div class="w-1/3"> <!-- Fixed width -->
-         <div class="flex justify-between items-baseline mb-1">
-            <label for="otherCostsPercent" class="block text-sm font-normal text-gray-700">Other Costs: <span id="otherCostsPercentValue">13%</span></label>
-            <a id="resetOtherCosts" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">&times;</a>
-         </div>
-         <input type="range" id="otherCostsPercent" min="0" max="50" value="13" class="w-full accent-gray-500 secondary-slider" />
-      </div>
-
-      <!-- Margin Slider -->
-      <div class="w-1/3"> <!-- Fixed width -->
-         <div class="flex justify-between items-baseline mb-1">
-            <label for="margin" class="block text-sm font-normal text-gray-700">Profit Margin: <span id="marginValue">39%</span></label>
-            <a id="resetMargin" class="text-xs text-blue-500 hover:text-blue-700 ml-2 cursor-pointer hidden">&times;</a>
-         </div>
-         <input type="range" id="margin" min="0" max="100" value="39" class="w-full accent-gray-500 secondary-slider" />
-      </div>
-
-    </div>
+    </div> <!-- End of Slider Container -->
 
     <div class="relative">
       <img
