@@ -392,10 +392,27 @@
     // Default values (will be updated based on category)
     const defaultTariff = 104; // Tariff default set to 104
 
-    function roundUpTo99(amount) {
-      // Avoid rounding $0 to $-1
+    function roundToApplePrice(amount) {
+      // Handle zero or negative amounts first
       if (amount <= 0) return 0;
-      return Math.ceil(amount / 100) * 100 - 1;
+
+      if (amount <= 499) {
+        // Round to nearest x49 or x99 for prices <= 499
+        const roundedUp99 = Math.ceil(amount / 100) * 100 - 1;
+        const potential49 = roundedUp99 - 50;
+
+        // If the amount is closer to the potential x49 price (or exactly halfway), round to x49
+        // The midpoint is potential49 + 25.
+        if (amount <= potential49 + 25) {
+          // Ensure we don't return negative for amounts < 25 rounding to -1
+          return Math.max(0, potential49);
+        } else {
+          return roundedUp99;
+        }
+      } else {
+        // Round up to nearest x99 for prices > 499
+        return Math.ceil(amount / 100) * 100 - 1;
+      }
     }
 
     function populateProductSelect(category) {
@@ -445,8 +462,8 @@
       // Calculate the price before rounding
       const estimatedRetail = bomAmount + otherCostsAmount + marginAmount + tariffCost;
 
-      // Round up to nearest xx9
-      const finalRounded = roundUpTo99(estimatedRetail);
+      // Round using the new function
+      const finalRounded = roundToApplePrice(estimatedRetail);
 
       // Explanation parts
       const totalNonTariff = bomAmount + otherCostsAmount + marginAmount;
