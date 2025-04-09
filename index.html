@@ -27,8 +27,14 @@
       <option value="16promax">iPhone 16 Pro Max - $1199</option>
     </select>
 
+    <label for="bom" class="block text-lg font-medium mb-2">Bill of Materials (BOM) portion: <span id="bomValue">55%</span></label>
+    <input type="range" id="bom" min="0" max="100" value="55" class="w-full mb-6" />
+
     <label for="tariff" class="block text-lg font-medium mb-2">Import tax: <span id="tariffValue">0%</span></label>
     <input type="range" id="tariff" min="0" max="400" value="0" class="w-full mb-6" />
+
+    <label for="margin" class="block text-lg font-medium mb-2">Intended Profit Margin: <span id="marginValue">39%</span></label>
+    <input type="range" id="margin" min="0" max="100" value="39" class="w-full mb-6" />
 
     <div class="relative">
       <img
@@ -43,6 +49,18 @@
       </div>
 
       <div id="finalPrice" class="text-2xl font-semibold mt-2">$799</div>
+      <div id="explanation" class="text-sm text-gray-700 mt-4"></div>
+      <div class="text-left text-sm text-gray-600 mt-6 border-t pt-4">
+        <strong>Calculation Method:</strong><br/>
+        Retail Price = (BOM Cost × (1 + Tariff Rate) + Other Costs) × (1 + Profit Margin)<br/><br/>
+        Where:<br/>
+        • <strong>BOM Cost</strong>: Cost of components (as % of base price)<br/>
+        • <strong>Tariff Rate</strong>: U.S. import tax<br/>
+        • <strong>Other Costs</strong>: Fixed at $100<br/>
+        • <strong>Profit Margin</strong>: Adjustable<br/><br/>
+        Example: If BOM = $485, Tariff = 50%, Other Costs = $100, Profit Margin = 40%,<br/>
+        Then Retail = ($485 × 1.5 + $100) × 1.4 = $1073<br/>
+      </div>
     </div>
   </div>
 
@@ -70,12 +88,16 @@
       }
     };
 
-    let basePrice = phones["16"].price;
     const modelSelect = document.getElementById("model");
+    const bomInput = document.getElementById("bom");
+    const bomValue = document.getElementById("bomValue");
     const tariffInput = document.getElementById("tariff");
     const tariffValue = document.getElementById("tariffValue");
+    const marginInput = document.getElementById("margin");
+    const marginValue = document.getElementById("marginValue");
     const basePriceEl = document.getElementById("basePrice");
     const finalPriceEl = document.getElementById("finalPrice");
+    const explanationEl = document.getElementById("explanation");
     const phoneImageEl = document.getElementById("phoneImage");
 
     function roundUpTo99(amount) {
@@ -85,18 +107,32 @@
     function updatePrices() {
       const selectedKey = modelSelect.value;
       const phone = phones[selectedKey];
-      basePrice = phone.price;
+      const basePrice = phone.price;
       phoneImageEl.src = phone.image;
 
+      const bomPercent = parseFloat(bomInput.value);
       const tariff = parseFloat(tariffInput.value);
-      tariffValue.textContent = `${tariff}%`;
+      const marginRate = parseFloat(marginInput.value) / 100;
 
-      const taxedPrice = basePrice * (1 + tariff / 100);
-      const finalRounded = roundUpTo99(taxedPrice);
+      bomValue.textContent = `${bomPercent}%`;
+      tariffValue.textContent = `${tariff}%`;
+      marginValue.textContent = `${marginInput.value}%`;
+
+      const bomAmount = basePrice * (bomPercent / 100);
+      const tariffCost = bomAmount * (tariff / 100);
+      const otherCosts = 100;
+
+      const estimatedRetail = (bomAmount * (1 + tariff / 100) + otherCosts) * (1 + marginRate);
+      const finalRounded = roundUpTo99(estimatedRetail);
+
+      const actualMargin = finalRounded - bomAmount - tariffCost - otherCosts;
+
       finalPriceEl.textContent = `$${finalRounded}`;
       basePriceEl.textContent = `$${basePrice}`;
 
-      if (tariff > 0) {
+      explanationEl.innerHTML = `BOM = $${bomAmount.toFixed(2)}, Tariff = $${tariffCost.toFixed(2)}, Other Costs = $${otherCosts.toFixed(2)}, <br>Actual Margin = $${actualMargin.toFixed(2)}, Final Price = $${finalRounded}`;
+
+      if (tariff > 0 && bomPercent > 0) {
         basePriceEl.classList.add("line-through", "text-gray-400");
         basePriceEl.style.visibility = "visible";
       } else {
@@ -105,7 +141,9 @@
       }
     }
 
+    bomInput.addEventListener("input", updatePrices);
     tariffInput.addEventListener("input", updatePrices);
+    marginInput.addEventListener("input", updatePrices);
     modelSelect.addEventListener("change", updatePrices);
     updatePrices();
   </script>
