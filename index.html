@@ -163,11 +163,14 @@
         class="mx-auto mb-4 rounded-2xl"
       />
 
-      <div class="text-xl">
-        <span id="basePrice" class="inline-block">$799</span>
+      <!-- New Price Display Container -->
+      <div class="mt-2 text-center text-xl"> <!-- Centered container -->
+          <!-- Spans will display inline-block by default -->
+         <span id="basePrice" class="text-gray-500 mr-2">$799</span> <!-- Base price -->
+         <span id="finalPrice" class="font-semibold">$799</span> <!-- Final price -->
+         <span id="priceIncrease" class="ml-2 text-lg font-medium text-red-600"></span> <!-- Percentage increase -->
       </div>
 
-      <div id="finalPrice" class="text-2xl font-semibold mt-2">$799</div>
       <div id="explanation" class="text-sm text-gray-700 mt-4"></div>
       <div class="text-left text-sm text-gray-600 mt-6 border-t pt-4">
         <strong>Calculation Method:</strong><br/>
@@ -337,6 +340,7 @@
     const phoneImageEl = document.getElementById("phoneImage");
     const otherCostsPercentInput = document.getElementById("otherCostsPercent");
     const otherCostsPercentValue = document.getElementById("otherCostsPercentValue");
+    const priceIncreaseEl = document.getElementById("priceIncrease"); // Get the new element
 
     // Get reset links
     const resetBomLink = document.getElementById("resetBom");
@@ -405,7 +409,7 @@
 
       // Explanation parts
       const totalNonTariff = bomAmount + otherCostsAmount + marginAmount;
-      const explanationText = `Base = $${basePrice} (BOM ${bomPercent}% + Other ${otherCostsPercent}% + Margin ${marginPercent}%) = $${totalNonTariff.toFixed(2)}<br>` +
+      const explanationText = `Base = $${basePrice} (BOM ${bomPercent}% + Other ${otherCostsPercent}% + Margin ${marginPercent}%)<br>` +
                               `Tariff on BOM ($${bomAmount.toFixed(2)} @ ${tariffPercent}%) = $${tariffCost.toFixed(2)}<br>` +
                               `Total Estimated = $${estimatedRetail.toFixed(2)} -> Rounded = $${finalRounded}`;
 
@@ -414,14 +418,30 @@
 
       explanationEl.innerHTML = explanationText;
 
-      if (tariffPercent > 0 && bomPercent > 0) {
-        basePriceEl.classList.add("line-through", "text-gray-400");
-        basePriceEl.style.display = "inline-block"; // Use inline-block to keep on same line potentially
-        finalPriceEl.classList.add("text-red-600"); // Make final price red when tariff > 0
+      // Calculate percentage increase
+      let increasePercent = 0;
+      if (basePrice > 0 && finalRounded > basePrice) {
+          increasePercent = ((finalRounded - basePrice) / basePrice) * 100;
+      }
+
+      // Update price display elements based on increase
+      if (increasePercent > 0) {
+          priceIncreaseEl.textContent = `(+${increasePercent.toFixed(0)}%)`;
+          basePriceEl.classList.add("line-through"); // Apply line-through to base price
+          finalPriceEl.classList.add("text-red-600"); // Keep final price red
+
+          // Make sure all elements are visible
+          basePriceEl.classList.remove("hidden");
+          priceIncreaseEl.classList.remove("hidden");
+
       } else {
-        basePriceEl.classList.remove("line-through", "text-gray-400");
-        basePriceEl.style.display = "none";
-        finalPriceEl.classList.remove("text-red-600"); // Revert color when tariff is 0
+          priceIncreaseEl.textContent = ''; // Clear text if no increase
+          basePriceEl.classList.remove("line-through");
+          finalPriceEl.classList.remove("text-red-600");
+
+          // Hide base price and increase element
+          basePriceEl.classList.add("hidden");
+          priceIncreaseEl.classList.add("hidden");
       }
 
       // --- Update slider fill colors ---
